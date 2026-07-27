@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#355070">
+<link rel="icon" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&amp;family=Figtree:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0}
+a{color:#B56576}
+a:hover{color:#355070}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes growUp{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes screenIn{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+@keyframes prToast{0%{opacity:0;transform:translateY(-6px)}12%{opacity:1;transform:translateY(0)}88%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-6px)}}
+</style>
+</helmet>
+
+<div style="{{ shellOuterStyle }}">
+  <div style="{{ shellBezelStyle }}">
+    <div style="{{ shellScreenStyle }}">
+
+      <div style="display:flex;justify-content:space-between;padding:16px 24px 4px;font-size:12px;font-weight:600;color:#355070;flex:none">
+        <span>9:41</span>
+      </div>
+
+      <div style="flex:1;overflow-y:auto;animation:screenIn .35s cubic-bezier(.2,.8,.3,1) both">
+
+        <!-- ONBOARDING: PROFILE FORM -->
+        <sc-if value="{{ isFormStep }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:32px 24px 28px;display:flex;flex-direction:column;gap:22px;min-height:520px;box-sizing:border-box">
+            <div style="animation:fadeSlideUp .45s ease both">
+              <div style="font-size:11px;color:#355070;opacity:.7;letter-spacing:.08em;text-transform:uppercase">Bienvenido</div>
+              <div style="font-family:'Caprasimo',system-ui;font-size:26px;color:#2E2A2C;margin-top:4px">Cuéntanos de ti</div>
+              <div style="font-size:12.5px;color:#2E2A2C;opacity:.6;margin-top:6px;line-height:1.5">Nos ayuda a personalizar tu progreso en el gym.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px;animation:fadeSlideUp .45s .05s ease both">
+              <div><label style="font-size:11px;color:#355070;display:block;margin-bottom:4px">Nombre</label><input value="{{ profile.name }}" onChange="{{ setProfileName }}" placeholder="¿Cómo te llamas?" style="width:100%;box-sizing:border-box;padding:10px 14px;border-radius:999px;border:1px solid #E4A3B3;background:#FFFFFF;font-size:13.5px;color:#2E2A2C;transition:border-color .15s ease" style-focus="border-color:#B56576;outline:none"></div>
+              <div style="display:flex;gap:10px">
+                <div style="flex:1"><label style="font-size:11px;color:#355070;display:block;margin-bottom:4px">Peso (kg)</label><input value="{{ profile.weight }}" onChange="{{ setProfileWeight }}" placeholder="70" style="width:100%;box-sizing:border-box;text-align:center;padding:10px 4px;border-radius:999px;border:1px solid #E4A3B3;background:#FFFFFF;font-size:13.5px;color:#2E2A2C;transition:border-color .15s ease" style-focus="border-color:#B56576;outline:none"></div>
+                <div style="flex:1"><label style="font-size:11px;color:#355070;display:block;margin-bottom:4px">Estatura (cm)</label><input value="{{ profile.height }}" onChange="{{ setProfileHeight }}" placeholder="170" style="width:100%;box-sizing:border-box;text-align:center;padding:10px 4px;border-radius:999px;border:1px solid #E4A3B3;background:#FFFFFF;font-size:13.5px;color:#2E2A2C;transition:border-color .15s ease" style-focus="border-color:#B56576;outline:none"></div>
+                <div style="flex:1"><label style="font-size:11px;color:#355070;display:block;margin-bottom:4px">Edad</label><input value="{{ profile.age }}" onChange="{{ setProfileAge }}" placeholder="25" style="width:100%;box-sizing:border-box;text-align:center;padding:10px 4px;border-radius:999px;border:1px solid #E4A3B3;background:#FFFFFF;font-size:13.5px;color:#2E2A2C;transition:border-color .15s ease" style-focus="border-color:#B56576;outline:none"></div>
+              </div>
+              <div>
+                <label style="font-size:11px;color:#355070;display:block;margin-bottom:6px">Objetivo</label>
+                <div style="display:flex;border-radius:999px;background:#FFFFFF;padding:4px;border:1px solid #E4A3B3">
+                  <div onClick="{{ setGoalGanar }}" style="flex:1;text-align:center;padding:8px 4px;border-radius:999px;font-size:11.5px;cursor:pointer;transition:background .15s ease,color .15s ease;background:{{ goalGanarBg }};color:{{ goalGanarColor }}">Ganar músculo</div>
+                  <div onClick="{{ setGoalPerder }}" style="flex:1;text-align:center;padding:8px 4px;border-radius:999px;font-size:11.5px;cursor:pointer;transition:background .15s ease,color .15s ease;background:{{ goalPerderBg }};color:{{ goalPerderColor }}">Perder grasa</div>
+                  <div onClick="{{ setGoalMantener }}" style="flex:1;text-align:center;padding:8px 4px;border-radius:999px;font-size:11.5px;cursor:pointer;transition:background .15s ease,color .15s ease;background:{{ goalMantenerBg }};color:{{ goalMantenerColor }}">Mantenerme</div>
+                </div>
+              </div>
+            </div>
+            <sc-if value="{{ formError }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:12px;color:#B56576;animation:popIn .2s ease both">{{ formError }}</div>
+            </sc-if>
+            <button onClick="{{ submitProfileForm }}" style="width:100%;padding:13px;border-radius:999px;border:none;background:#B56576;color:#FFFFFF;font-family:'Figtree';font-weight:600;font-size:14px;cursor:pointer;transition:background .15s ease,transform .12s ease" style-hover="background:#9c4f60" style-active="transform:scale(.97)">Continuar</button>
+          </div>
+        </sc-if>
+
+        <!-- ONBOARDING: TUTORIAL -->
+        <sc-if value="{{ isTutorialStep }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:20px 24px 28px;display:flex;flex-direction:column;min-height:560px;box-sizing:border-box">
+            <div style="display:flex;justify-content:flex-end">
+              <div onClick="{{ skipTutorial }}" style="cursor:pointer;font-size:12px;color:#355070;opacity:.55;transition:opacity .15s ease" style-hover="opacity:.9">Omitir</div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:0 8px">
+              <sc-if value="{{ isTut1 }}" hint-placeholder-val="{{ true }}">
+                <div style="width:64px;height:64px;border-radius:20px;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:26px;color:#B56576;animation:popIn .4s ease both">⌂</div>
+                <div style="font-family:'Caprasimo',system-ui;font-size:19px;color:#2E2A2C;animation:fadeSlideUp .4s .05s ease both">Inicio</div>
+                <div style="font-size:13px;color:#2E2A2C;opacity:.7;line-height:1.6;max-width:250px;animation:fadeSlideUp .4s .1s ease both">Tu resumen semanal, grupos musculares y tu último récord, todo en un vistazo.</div>
+              </sc-if>
+              <sc-if value="{{ isTut2 }}" hint-placeholder-val="{{ false }}">
+                <div style="width:64px;height:64px;border-radius:20px;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:26px;color:#B56576;animation:popIn .4s ease both">▤</div>
+                <div style="font-family:'Caprasimo',system-ui;font-size:19px;color:#2E2A2C;animation:fadeSlideUp .4s .05s ease both">Ejercicios</div>
+                <div style="font-size:13px;color:#2E2A2C;opacity:.7;line-height:1.6;max-width:250px;animation:fadeSlideUp .4s .1s ease both">Explora ejercicios por grupo muscular y registra cuánto peso, reps y series haces en cada uno.</div>
+              </sc-if>
+              <sc-if value="{{ isTut3 }}" hint-placeholder-val="{{ false }}">
+                <div style="width:64px;height:64px;border-radius:20px;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:26px;color:#B56576;animation:popIn .4s ease both">▦</div>
+                <div style="font-family:'Caprasimo',system-ui;font-size:19px;color:#2E2A2C;animation:fadeSlideUp .4s .05s ease both">Calendario</div>
+                <div style="font-size:13px;color:#2E2A2C;opacity:.7;line-height:1.6;max-width:250px;animation:fadeSlideUp .4s .1s ease both">Organiza qué ejercicios harás cada día de tu semana.</div>
+              </sc-if>
+              <sc-if value="{{ isTut4 }}" hint-placeholder-val="{{ false }}">
+                <div style="width:64px;height:64px;border-radius:20px;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:26px;color:#B56576;animation:popIn .4s ease both">◱</div>
+                <div style="font-family:'Caprasimo',system-ui;font-size:19px;color:#2E2A2C;animation:fadeSlideUp .4s .05s ease both">Progreso</div>
+                <div style="font-size:13px;color:#2E2A2C;opacity:.7;line-height:1.6;max-width:250px;animation:fadeSlideUp .4s .1s ease both">Mira tus récords personales en cada ejercicio a medida que avanzas.</div>
+              </sc-if>
+              <sc-if value="{{ isTut5 }}" hint-placeholder-val="{{ false }}">
+                <div style="width:64px;height:64px;border-radius:20px;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:26px;color:#B56576;animation:popIn .4s ease both">◯</div>
+                <div style="font-family:'Caprasimo',system-ui;font-size:19px;color:#2E2A2C;animation:fadeSlideUp .4s .05s ease both">Perfil</div>
+                <div style="font-size:13px;color:#2E2A2C;opacity:.7;line-height:1.6;max-width:250px;animation:fadeSlideUp .4s .1s ease both">Ajusta tus datos y lleva tu progreso a otro dispositivo cuando quieras.</div>
+              </sc-if>
+            </div>
+            <div style="display:flex;justify-content:center;gap:6px;margin-bottom:20px">
+              <sc-for list="{{ tutDots }}" as="dot" hint-placeholder-count="5">
+                <div style="width:{{ dot.size }};height:{{ dot.size }};border-radius:999px;background:{{ dot.color }};transition:all .2s ease"></div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:10px">
+              <sc-if value="{{ showBackBtn }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ prevTutStep }}" style="flex:1;padding:12px;border-radius:999px;border:1.5px solid #355070;background:transparent;color:#355070;font-family:'Figtree';font-weight:600;font-size:13.5px;cursor:pointer;transition:background .15s ease,transform .12s ease" style-hover="background:#F1FAEE" style-active="transform:scale(.97)">Atrás</button>
+              </sc-if>
+              <button onClick="{{ nextTutStep }}" style="flex:2;padding:12px;border-radius:999px;border:none;background:#B56576;color:#FFFFFF;font-family:'Figtree';font-weight:600;font-size:13.5px;cursor:pointer;transition:background .15s ease,transform .12s ease" style-hover="background:#9c4f60" style-active="transform:scale(.97)">{{ nextLabel }}</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ONBOARDING: FINAL -->
+        <sc-if value="{{ isFinalStep }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:40px 28px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px;min-height:560px;box-sizing:border-box">
+            <div style="font-size:38px;animation:popIn .5s ease both">💛</div>
+            <div style="font-family:'Caprasimo',system-ui;font-size:23px;color:#2E2A2C;animation:fadeSlideUp .45s .05s ease both">{{ finalGreeting }}</div>
+            <div style="font-size:13.5px;color:#2E2A2C;opacity:.75;line-height:1.6;max-width:250px;animation:fadeSlideUp .45s .1s ease both">Cada serie que registres te acerca a la mejor versión de ti.<br>"<b>La constancia</b>, no la perfección, es lo que <b>transforma</b>"</div>
+            <div style="width:60px;height:1px;background:#E4A3B3;margin:2px 0"></div>
+            <div style="font-size:12.5px;color:#355070;animation:fadeSlideUp .45s .15s ease both">Gracias GymBro</div>
+            <button onClick="{{ finishOnboarding }}" style="width:100%;margin-top:8px;padding:13px;border-radius:999px;border:none;background:#B56576;color:#FFFFFF;font-family:'Figtree';font-weight:600;font-size:14px;cursor:pointer;transition:background .15s ease,transform .12s ease" style-hover="background:#9c4f60" style-active="transform:scale(.97)">Empezar a entrenar</button>
+          </div>
+        </sc-if>
+
+        <!-- WORKOUT RUNNER -->
+        <sc-if value="{{ isWorkoutActive }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:20px 24px 28px;display:flex;flex-direction:column;min-height:560px;box-sizing:border-box;gap:18px">
+            <sc-if value="{{ isWorkoutRunning }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div style="font-size:11px;color:#355070;opacity:.7">Ejercicio {{ workoutExerciseNum }} de {{ workoutExerciseTotal }}</div>
+                <div onClick="{{ exitWorkout }}" style="cursor:pointer;font-size:12px;color:#355070;opacity:.55;transition:opacity .15s ease" style-hover="opacity:.9">Salir</div>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px">
+                <div style="font-family:'Caprasimo',system-ui;font-size:22px;color:#2E2A2C;animation:fadeSlideUp .3s ease both">{{ currentStep.exerciseName }}</div>
+                <div style="font-size:12.5px;color:#355070">Serie {{ currentStep.serieIndex }} de {{ currentStep.totalSeries }}</div>
+                <sc-if value="{{ isPhaseSetOrChoice }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;gap:24px;margin-top:12px;animation:popIn .35s ease both">
+                    <div><div style="font-family:'Caprasimo',system-ui;font-size:28px;color:#B56576">{{ currentStep.weightLabel }}</div><div style="font-size:10px;color:#2E2A2C;opacity:.55;text-transform:uppercase;letter-spacing:.06em">Carga</div></div>
+                    <div><div style="font-family:'Caprasimo',system-ui;font-size:28px;color:#355070">{{ currentStep.reps }}</div><div style="font-size:10px;color:#2E2A2C;opacity:.55;text-transform:uppercase;letter-spacing:.06em">Reps</div></div>
+                  </div>
+                </sc-if>
+              </div>
+              <sc-if value="{{ isPhaseSet }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ completeSet }}" style="width:100%;padding:15px;border-radius:999px;border:none;background:#B56576;color:#FFFFFF;font-family:'Figtree';font-weight:700;font-size:14.5px;cursor:pointer;transition:background .15s ease,transform .12s ease" style-hover="background:#9c4f60" style-active="transform:scale(.97)">✓ Completé esta serie</button>
+              </sc-if>
+              <sc-if value="{{ isPhaseChoice }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:10px;animation:fadeSlideUp .3s ease both">
+                  <div style="font-size:12.5px;color:#2E2A2C;opacity:.6;text-align:center">¿Qué sigue?</div>
+                  <div style="display:flex;gap:10px">
+                    <button onClick="{{ chooseRest }}" style="flex:1;padding:13px;border-radius:999px;border:1.5px solid #355070;background:transparent;color:#355070;font-family:'Figtree';font-weight:600;font-size:13.5px;cursor:pointer;transition:background .15s ease,transform .12s ease" style-hover="background:#F1FAEE" style-active="transform:scale(.97)">Descansar</button>
+                    <button onClick="{{ chooseContinueStep }}" style="flex:1;padding:13px;border-radius:999px;border:none;background:#B56576;color:#FFFFFF;font-family:'Figtree';font-weight:600;font-size:13.5px;cursor:pointer;transition:background .15s ease,transform .12s ease" style-hover="background:#9c4f60" style-active="transform:scale(.97)">Continuar</button>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ isPhaseRestPick }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:14px;animation:fadeSlideUp .3s ease both">
+                  <div style="font-size:13px;font-weight:600;color:#2E2A2C;text-align:center">¿Cuánto vas a descansar?</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
+                    <sc-for list="{{ restOptionsView }}" as="opt" hint-placeholder-count="5">
+                      <div onClick="{{ opt.pick }}" style="cursor:pointer;padding:9px 16px;border-radius:999px;border:1.5px solid #E4A3B3;font-size:13px;transition:background .15s ease,color .15s ease;background:{{ opt.bg }};color:{{ opt.color }}">{{ opt.label }}</div>
+                    </sc-for>
+                    <div onClick="{{ activateCustomRest }}" style="cursor:pointer;padding:9px 16px;border-radius:999px;border:1.5px solid #E4A3B3;font-size:13px;transition:background .15s ease,color .15s ease;background:{{ customChipBg }};color:{{ customChipColor }}">Personalizado</div>
+                  </div>
+                  <sc-if value="{{ isRestCustomActive }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;align-items:center;justify-content:center;gap:8px;animation:popIn .25s ease both">
+                      <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+                        <input value="{{ customMin }}" onChange="{{ setCustomMin }}" placeholder="0" style="width:56px;box-sizing:border-box;text-align:center;padding:8px 4px;border-radius:999px;border:1px solid #E4A3B3;background:#FFFFFF;font-size:14px;color:#2E2A2C;transition:border-color .15s ease" style-focus="border-color:#B56576;outline:none">
+                        <div style="font-size:10px;color:#355070;opacity:.7">min</div>
+                      </div>
+                      <div style="font-size:18px;color:#2E2A2C;opacity:.4;margin-top:-16px">:</div>
+                      <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+                        <input value="{{ customSec }}" onChange="{{ setCustomSec }}" placeholder="30" style="width:56px;box-sizing:border-box;text-align:center;padding:8px 4px;border-radius:999px;border:1px solid #E4A3B3;background:#FFFFFF;font-size:14px;color:#2E2A2C;transition:border-color .15s ease" style-focus="border-color:#B56576;outline:none">
+                        <div style="font-size:10px;color:#355070;opacity:.7">seg</div>
+                      </div>
+                    </div>
+                  </sc-if>
+                  <button onClick="{{ startRestCountdown }}" style="width:100%;padding:13px;border-radius:999px;border:none;background:#B56576;color:#FFFFFF;font-family:'Figtree';font-weight:600;font-size:13.5px;cursor:pointer;transition:background .15s ease,transform .12s ease" style-hover="background:#9c4f60" style-active="transform:scale(.97)">Iniciar descanso</button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ isPhaseRestRunning }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:16px;animation:fadeSlideUp .3s ease both">
+                  <div style="font-size:11px;color:#355070;opacity:.7;text-transform:uppercase;letter-spacing:.08em">Descansando</div>
+                  <div style="font-family:'Caprasimo',system-ui;font-size:50px;color:#B56576">{{ restDisplay }}</div>
+                  <div onClick="{{ skipRest }}" style="cursor:pointer;font-size:12.5px;color:#355070;text-decoration:underline;opacity:.75;transition:opacity .15s ease" style-hover="opacity:1">Saltar descanso</div>
+                </div>
+              </sc-if>
+            </sc-if>
+            <sc-if value="{{ isPhaseComplete }}" hint-placeholder-val="{{ false }}">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px">
+                <div style="font-size:36px;animation:popIn .4s ease both">💪</div>
+                <div style="font-family:'Caprasimo',system-ui;font-size:22px;color:#2E2A2C;animation:fadeSlideUp .4s .05s ease both">¡Entrenamiento completado!</div>
+                <div style="font-size:13px;color:#2E2A2C;opacity:.7;max-width:240px;line-height:1.5;animation:fadeSlideUp .4s .1s ease both">Registramos todas tus series de hoy. Sigue así.</div>
+                <button onClick="{{ exitWorkout }}" style="width:100%;padding:13px;border-radius:999px;border:none;background:#B56576;color:#FFFFFF;font-family:'Figtree';font-weight:600;font-size:14px;cursor:pointer;transition:background .15s ease,transform .12s ease" style-hover="background:#9c4f60" style-active="transform:scale(.97)">Volver a inicio</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isNormalTabs }}" hint-placeholder-val="{{ true }}">
+
+        <!-- HOME -->
+        <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+          <div style="padding:8px 24px 28px;display:flex;flex-direction:column;gap:20px">
+            <div style="animation:fadeSlideUp .45s ease both">
+              <div style="font-size:13px;color:#355070;opacity:.75">{{ greetName }}</div>
+              <div style="font-family:'Caprasimo',system-ui;font-size:28px;color:#2E2A2C;margin-top:2px">Tu progreso</div>
+            </div>
+            <sc-if value="{{ hasTodayPlan }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#355070;border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:12px;animation:fadeSlideUp .45s .02s ease both">
+                <div>
+                  <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#F1FAEE;opacity:.8">Hoy toca</div>
+                  <div style="font-family:'Caprasimo',system-ui;font-size:18px;color:#FFFFFF;margin-top:2px">Entrenamiento del día</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <sc-for list="{{ todayPlanPreview }}" as="tp" hint-placeholder-count="3">
+                    <div style="font-size:12px;color:#F1FAEE;opacity:.9">{{ tp.name }} — {{ tp.label }}</div>
+                  </sc-for>
+                </div>
+                <button onClick="{{ startWorkout }}" style="width:100%;padding:11px;border-radius:999px;border:none;background:#FFFFFF;color:#355070;font-family:'Figtree';font-weight:700;font-size:13px;cursor:pointer;transition:transform .12s ease" style-active="transform:scale(.97)">Iniciar entrenamiento</button>
+              </div>
+            </sc-if>
+            <div style="display:flex;gap:12px;animation:fadeSlideUp .45s .05s ease both">
+              <div style="flex:1;background:#FFFFFF;border-radius:20px;padding:16px;transition:transform .2s ease" style-hover="transform:translateY(-3px)">
+                <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#B56576">Semana</div>
+                <div style="font-family:'Caprasimo',system-ui;font-size:26px;color:#2E2A2C;margin-top:4px">{{ weekCount }}</div>
+                <div style="font-size:12px;color:#2E2A2C;opacity:.65">entrenamientos</div>
+              </div>
+              <div style="flex:1;background:#F1FAEE;border-radius:20px;padding:16px;transition:transform .2s ease" style-hover="transform:translateY(-3px)">
+                <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#355070">Récords</div>
+                <div style="font-family:'Caprasimo',system-ui;font-size:26px;color:#2E2A2C;margin-top:4px">{{ prCount }}</div>
+                <div style="font-size:12px;color:#2E2A2C;opacity:.65">nuevos PR</div>
+              </div>
+            </div>
+            <div style="animation:fadeSlideUp .45s .1s ease both">
+              <div style="font-size:14px;font-weight:600;color:#2E2A2C;margin-bottom:10px">Grupos musculares</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <sc-for list="{{ groups }}" as="g" hint-placeholder-count="8">
+                  <div onClick="{{ g.open }}" style="cursor:pointer;background:#FFFFFF;border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:8px;animation:fadeSlideUp .4s both;transition:transform .18s ease,box-shadow .18s ease" style-hover="transform:translateY(-3px);box-shadow:0 10px 22px rgba(46,42,44,.1)" style-active="transform:scale(.97)">
+                    <div style="width:100%;aspect-ratio:4/3;border-radius:12px;overflow:hidden">
+                      <image-slot id="{{ g.imgId }}" shape="rect" placeholder="Foto del grupo muscular" style="width:100%;height:100%"></image-slot>
+                    </div>
+                    <div style="font-family:'Caprasimo',system-ui;font-size:14px;color:#2E2A2C">{{ g.name }}</div>
+                    <div style="font-size:11px;color:#2E2A2C;opacity:.55">{{ g.count }} ejercicios</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <sc-if value="{{ lastPr }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#B56576;border-radius:20px;padding:16px;animation:fadeSlideUp .45s .15s ease both">
+                <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#F6E7E2;opacity:.85">Nuevo récord</div>
+                <div style="font-family:'Caprasimo',system-ui;font-size:17px;color:#FFFFFF;margin-top:4px">{{ lastPr.label }}</div>
+                <div style="font-size:12px;color:#F6E7E2;opacity:.9;margin-top:2px">{{ lastPr.detail }}</div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- EXERCISES: GROUP GRID -->
+        <sc-if value="{{ showGroupGrid }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:8px 24px 28px;display:flex;flex-direction:column;gap:16px">
+            <div style="font-family:'Caprasimo',system-ui;font-size:24px;color:#2E2A2C;animation:fadeSlideUp .4s both">Ejercicios</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <sc-for list="{{ groups }}" as="g" hint-placeholder-count="8">
+                <div onClick="{{ g.open }}" style="cursor:pointer;background:#FFFFFF;border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:8px;animation:fadeSlideUp .4s both;transition:transform .18s ease" style-hover="transform:translateY(-3px)" style-active="transform:scale(.97)">
+                  <div style="width:100%;aspect-ratio:4/3;border-radius:12px;overflow:hidden">
+                    <image-slot id="{{ g.imgId }}" shape="rect" placeholder="Foto del grupo muscular" style="width:100%;height:100%"></image-slot>
+                  </div>
+                  <div style="font-family:'Caprasimo',system-ui;font-size:14px;color:#2E2A2C">{{ g.name }}</div>
+                  <div style="font-size:11px;color:#2E2A2C;opacity:.55">{{ g.count }} ejercicios</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- EXERCISES: LIST FOR GROUP -->
+        <sc-if value="{{ showExerciseList }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:8px 24px 28px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div onClick="{{ backToGroups }}" style="cursor:pointer;font-size:18px;color:#355070;transition:transform .15s ease" style-active="transform:scale(.85)">←</div>
+              <div style="font-family:'Caprasimo',system-ui;font-size:22px;color:#2E2A2C">{{ group.name }}</div>
+            </div>
+            <div style="display:inline-flex;align-self:flex-start;font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid #355070;color:#355070">{{ group.count }} ejercicios · máquina y libre</div>
+            <sc-for list="{{ exercisesForGroup }}" as="ex" hint-placeholder-count="4">
+              <div style="cursor:pointer;background:#FFFFFF;border-radius:18px;padding:10px;display:flex;align-items:center;gap:12px;animation:fadeSlideUp .35s both;transition:transform .16s ease" style-hover="transform:translateX(2px)">
+                <div style="width:52px;height:52px;flex:none;border-radius:12px;overflow:hidden">
+                  <image-slot id="{{ ex.thumbId }}" shape="rect" placeholder="Foto" style="width:100%;height:100%"></image-slot>
+                </div>
+                <div onClick="{{ ex.open }}" style="flex:1">
+                  <div style="font-family:'Caprasimo',system-ui;font-size:15px;color:#2E2A2C">{{ ex.name }}</div>
+                  <div style="font-size:11px;color:#2E2A2C;opacity:.55">{{ ex.machine }} · {{ ex.typeLabel }}</div>
+                </div>
+                <div onClick="{{ ex.toggleFav }}" style="cursor:pointer;padding:4px;flex:none;transition:transform .15s ease" style-active="transform:scale(.8)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="{{ ex.favFill }}" stroke="#B56576" stroke-width="1.8"><path d="M12 2.5l2.9 6.06 6.6.85-4.8 4.6 1.2 6.66L12 17.9l-5.9 3.16 1.2-6.65-4.8-4.6 6.6-.86L12 2.5z"></path></svg>
+                </div>
+                <sc-if value="{{ ex.isCustom }}" hint-placeholder-val="{{ false }}">
+                  <div onClick="{{ ex.remove }}" style="cursor:pointer;color:#B56576;font-size:15px;padding:2px 6px;transition:transform .12s ease" style-active="transform:scale(.8)">×</div>
+                </sc-if>
+                <div onClick="{{ ex.open }}" style="color:#B56576;font-size:16px">›</div>
+              </div>
+            </sc-for>
+
+            <sc-if value="{{ isAddFormOpenHere }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#FFFFFF;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px;animation:fadeSlideUp .3s ease both">
+                <div style="font-size:13px;font-weight:600;color:#2E2A2C">Añadir ejercicio</div>
+                <input value="{{ addForm.name }}" onChange="{{ setAddName }}" placeholder="Nombre del ejercicio" style="width:100%;box-sizing:border-box;padding:9px 14px;border-radius:999px;border:1px solid #E4A3B3;background:#FFFFFF;font-size:13px;color:#2E2A2C;transition:border-color .15s ease" style-focus="border-color:#B56576;outline:none">
+                <input value="{{ addForm.machine }}" onChange="{{ setAddMachine }}" placeholder="Equipo (opcional, ej. Mancuernas)" style="width:100%;box-sizing:border-box;padding:9px 14px;border-radius:999px;border:1px solid #E4A3B3;background:#FFFFFF;font-size:13px;color:#2E2A2C;transition:border-color .15s ease" style-focus="border-color:#B56576;outline:none">
+                <div style="display:flex;border-radius:999px;background:#F6E7E2;padding:4px">
+                  <div onClick="{{ setAddTypeMaquina }}" style="flex:1;text-align:center;padding:7px 4px;border-radius:999px;font-size:11px;cursor:pointer;transition:background .15s ease,color .15s ease;background:{{ addTypeMaquinaBg }};color:{{ addTypeMaquinaColor }}">Máquina</div>
+                  <div onClick="{{ setAddTypeLibre }}" style="flex:1;text-align:center;padding:7px 4px;border-radius:999px;font-size:11px;cursor:pointer;transition:background .15s ease,color .15s ease;background:{{ addTypeLibreBg }};color:{{ addTypeLibreColor }}">Peso libre</div>
+                  <div onClick="{{ setAddTypeCorporal }}" style="flex:1;text-align:center;padding:7px 4px;border-radius:999px;font-size:11px;cursor:pointer;transition:background .15s ease,color .15s ease;background:{{ addTypeCorporalBg }};color:{{ addTypeCorporalColor }}">Sin equipo</div>
+                </div>
+                <div style="display:flex;gap:8px">
+                  <button onClick="{{ closeAddForm }}" style="flex:1;padding:10px;border-radius:999px;border:1.5px solid #355070;background:transparent;color:#355070;font-family:'Figtree';font-weight:600;font-size:12.5px;cursor:pointer">Cancelar</button>
+                  <button onClick="{{ saveCustomExercise }}" style="flex:1;padding:10px;border-radius:999px;border:none;background:#B56576;color:#FFFFFF;font-family:'Figtree';font-weight:600;font-size:12.5px;cursor:pointer;transition:background .15s ease" style-hover="background:#9c4f60">Guardar</button>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isAddFormClosedHere }}" hint-placeholder-val="{{ true }}">
+              <div onClick="{{ openAddForm }}" style="cursor:pointer;background:transparent;border:1.5px dashed #B56576;border-radius:18px;padding:12px;text-align:center;font-size:12.5px;color:#B56576;font-weight:600;transition:background .15s ease" style-hover="background:#FFFFFF">+ Añadir ejercicio</div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- EXERCISES: DETAIL + LOG -->
+        <sc-if value="{{ showDetail }}" hint-placeholder-val="{{ false }}">
+          <div style="padding-bottom:28px;display:flex;flex-direction:column;gap:16px;position:relative">
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 24px 0">
+              <div onClick="{{ backToList }}" style="cursor:pointer;font-size:18px;color:#355070;transition:transform .15s ease" style-active="transform:scale(.85)">←</div>
+              <div style="font-family:'Caprasimo',system-ui;font-size:19px;color:#2E2A2C">{{ exercise.name }}</div>
+            </div>
+            <div style="margin:0 24px;display:flex;flex-direction:column;gap:8px;animation:popIn .35s ease both">
+              <div style="position:relative;aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:#FFFFFF;touch-action:pan-y;user-select:none" onPointerDown="{{ heroPointerDown }}" onPointerMove="{{ heroPointerMove }}" onPointerUp="{{ heroPointerUp }}" onPointerCancel="{{ heroPointerUp }}" onPointerLeave="{{ heroPointerUp }}">
+                <div style="display:flex;width:300%;height:100%;transform:{{ heroTrackTransform }};transition:{{ heroTrackTransition }}">
+                  <div style="width:33.3333%;flex:none;height:100%;padding:16px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;background:#F1FAEE">
+                    <div style="font-size:12px;font-weight:600;color:#355070">Posición inicial</div>
+                    <textarea value="{{ exercise.posInicial }}" onChange="{{ setPosInicial }}" placeholder="Describe la posición inicial" style="flex:1;width:100%;box-sizing:border-box;resize:none;border:none;background:transparent;font-family:'Figtree';font-size:12.5px;color:#2E2A2C;line-height:1.5"></textarea>
+                  </div>
+                  <div style="width:33.3333%;flex:none;height:100%">
+                    <image-slot id="{{ exercise.heroId }}" shape="rect" fit="contain" placeholder="Foto del ejercicio o la máquina" style="width:100%;height:100%"></image-slot>
+                  </div>
+                  <div style="width:33.3333%;flex:none;height:100%;padding:16px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;background:#F1FAEE">
+                    <div style="font-size:12px;font-weight:600;color:#355070">Ejecución</div>
+                    <textarea value="{{ exercise.ejecucion }}" onChange="{{ setEjecucion }}" placeholder="Describe la ejecución del movimiento" style="flex:1;width:100%;box-sizing:border-box;resize:none;border:none;background:transparent;font-family:'Figtree';font-size:12.5px;color:#2E2A2C;line-height:1.5"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:center;gap:6px">
+                <sc-for list="{{ heroDots }}" as="dot" hint-placeholder-count="3">
+                  <div onClick="{{ dot.go }}" style="width:{{ dot.size }};height:6px;border-radius:999px;background:{{ dot.color }};cursor:pointer;transition:all .2s ease"></div>
+                </sc-for>
+              </div>
+              <div style="text-align:center;font-size:10.5px;color:#2E2A2C;opacity:.5">{{ heroCaption }}</div>
+            </div>
+            <div style="padding:0 24px;display:flex;flex-direction:column;gap:16px">
+              <div style="display:flex;gap:8px">
+                <div style="font-size:11px;padding:4px 12px;border-radius:999px;background:#E4A3B3;color:#2E2A2C">{{ group.name }}</div>
+                <div style="font-size:11px;padding:4px 12px;border-radius:999px;background:#F1FAEE;color:#355070">{{ exercise.typeLabel }}</div>
+              </div>
+              <div>
+                <div style="font-size:14px;font-weight:600;color:#2E2A2C;margin-bottom:10px">Registrar serie</div>
+                <div style="display:inline-flex;border-radius:999px;background:#F6E7E2;padding:4px;margin-bottom:12px">
+                  <div onClick="{{ setLogModeLinear }}" style="padding:7px 14px;border-radius:999px;font-size:12px;cursor:pointer;transition:background .15s ease,color .15s ease;background:{{ modeLinearBg }};color:{{ modeLinearColor }}">Simple</div>
+                  <div onClick="{{ setLogModeMulti }}" style="padding:7px 14px;border-radius:999px;font-size:12px;cursor:pointer;transition:background .15s ease,color .15s ease;background:{{ modeMultiBg }};color:{{ modeMultiColor }}">Por serie</div>
+                </div>
+                <sc-if value="{{ isLinearMode }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;gap:8px">
+                    <div style="flex:1"><label style="font-size:11px;color:#355070;display:block;margin-bottom:4px">Carga (kg)</label><input value="{{ form.weight }}" onChange="{{ setWeight }}" style="width:100%;box-sizing:border-box;text-align:center;padding:8px 4px;border-radius:999px;border:1px solid #E4A3B3;background:#FFFFFF;font-size:13px;color:#2E2A2C;transition:border-color .15s ease" style-focus="border-color:#B56576;outline:none"></div>
+                    <div style="flex:1"><label style="font-size:11px;color:#355070;display:block;margin-bottom:4px">Reps</label><input value="{{ form.reps }}" onChange="{{ setReps }}" style="width:100%;box-sizing:border-box;text-align:center;padding:8px 4px;border-radius:999px;border:1px solid #E4A3B3;background:#FFFFFF;font-size:13px;color:#2E2A2C;transition:border-color .15s ease" style-focus="border-color:#B56576;outline:none"></div>
+                    <div style="flex:1"><label style="font-size:11px;color:#355070;display:block;margin-bottom:4px">Series</label><input value="{{ form.series }}" onChange="{{ setSeries }}" style="width:100%;box-sizing:border-box;text-align:center;padding:8px 4px;border-radius:999px;border:1px solid #E4A3B3;background:#FFFFFF;font-size:13px;color:#2E2A2C;transition:border-color .15s ease" style-focus="border-color:#B56576;outline:none"></div>
+                  </div>
+                  <div style="font-size:10.5px;color:#2E2A2C;opacity:.5;margin-top:6px">Misma carga y reps en todas las series.</div>
+                  <button onClick="{{ addSet }}" style="width:100%;margin-top:10px;padding:12px;border-radius:999px;border:none;background:#B56576;color:#FFFFFF;font-family:'Figtree';font-weight:600;font-size:14px;cursor:pointer;transition:background .15s ease,transform .12s ease" style-hover="background:#9c4f60" style-active="transform:scale(.97)">+ Añadir serie</button>
+                </sc-if>
+                <sc-if value="{{ isMultiMode }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size:10.5px;color:#2E2A2C;opacity:.5;margin-bottom:8px">Carga y reps propias para cada serie.</div>
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <sc-for list="{{ multiRowsView }}" as="row" hint-placeholder-count="2">
+                      <div style="display:flex;align-items:center;gap:8px;animation:fadeSlideUp .25s ease both">
+                        <div style="font-size:11px;color:#355070;width:46px;flex:none">Serie {{ row.n }}</div>
+                        <input placeholder="kg" value="{{ row.weight }}" onChange="{{ row.setWeight }}" style="flex:1;min-width:0;box-sizing:border-box;text-align:center;padding:8px 4px;border-radius:999px;border:1px solid #E4A3B3;background:#FFFFFF;font-size:13px;color:#2E2A2C;transition:border-color .15s ease" style-focus="border-color:#B56576;outline:none">
+                        <input placeholder="reps" value="{{ row.reps }}" onChange="{{ row.setReps }}" style="flex:1;min-width:0;box-sizing:border-box;text-align:center;padding:8px 4px;border-radius:999px;border:1px solid #E4A3B3;background:#FFFFFF;font-size:13px;color:#2E2A2C;transition:border-color .15s ease" style-focus="border-color:#B56576;outline:none">
+                        <div onClick="{{ row.remove }}" style="cursor:pointer;color:#B56576;font-size:16px;padding:2px 4px;transition:transform .12s ease" style-active="transform:scale(.8)">×</div>
+                      </div>
+                    </sc-for>
+                    <div onClick="{{ addMultiRow }}" style="cursor:pointer;align-self:flex-start;font-size:12.5px;color:#B56576;font-weight:600;transition:opacity .15s ease" style-hover="opacity:.7">+ Añadir otra serie</div>
+                    <button onClick="{{ saveMultiSession }}" style="width:100%;margin-top:2px;padding:12px;border-radius:999px;border:none;background:#B56576;color:#FFFFFF;font-family:'Figtree';font-weight:600;font-size:14px;cursor:pointer;transition:background .15s ease,transform .12s ease" style-hover="background:#9c4f60" style-active="transform:scale(.97)">Guardar sesión</button>
+                  </div>
+                </sc-if>
+              </div>
+              <sc-if value="{{ justPr }}" hint-placeholder-val="{{ false }}">
+                <div style="background:#355070;border-radius:14px;padding:10px 14px;font-size:12.5px;color:#F1FAEE;animation:prToast 2.6s ease both">🏆 ¡Nuevo récord personal!</div>
+              </sc-if>
+              <div>
+                <div style="font-size:14px;font-weight:600;color:#2E2A2C;margin-bottom:8px">Historial reciente</div>
+                <sc-if value="{{ hasHistory }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;flex-direction:column;border-radius:16px;overflow:hidden;background:#FFFFFF">
+                    <div style="display:flex;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#355070;opacity:.6;padding:10px 14px;border-bottom:1px solid #F1FAEE">
+                      <div style="flex:1">Fecha</div><div style="flex:1">Carga</div><div style="flex:1">Reps×Ser</div>
+                    </div>
+                    <sc-for list="{{ historyRows }}" as="row" hint-placeholder-count="3">
+                      <div style="display:flex;font-size:13px;color:#2E2A2C;padding:9px 14px;border-bottom:1px solid #F6E7E2;animation:fadeSlideUp .3s both">
+                        <div style="flex:1">{{ row.date }}</div><div style="flex:1">{{ row.weightLabel }}</div><div style="flex:1">{{ row.repsSeries }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                </div>
+              <sc-if value="{{ hasHistory }}" hint-placeholder-val="{{ true }}">
+                <div>
+                  <div style="font-size:12px;color:#2E2A2C;opacity:.6;margin-bottom:8px">Progreso de carga</div>
+                  <div style="display:flex;align-items:flex-end;gap:6px;height:70px">
+                    <sc-for list="{{ bars }}" as="bar" hint-placeholder-count="6">
+                      <div style="flex:1;height:100%;display:flex;align-items:flex-end">
+                        <div style="width:100%;height:{{ bar.height }};background:{{ bar.color }};border-radius:6px 6px 0 0;transform-origin:bottom;animation:growUp .5s ease both"></div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- CALENDAR TAB -->
+        <sc-if value="{{ isCalendar }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:8px 24px 28px;display:flex;flex-direction:column;gap:14px">
+            <div style="font-family:'Caprasimo',system-ui;font-size:24px;color:#2E2A2C;animation:fadeSlideUp .4s both">Mi semana</div>
+            <div style="font-size:12.5px;color:#2E2A2C;opacity:.6;margin-top:-8px">Planifica qué entrenas cada día</div>
+            <sc-for list="{{ days }}" as="day" hint-placeholder-count="7">
+              <div style="background:#FFFFFF;border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;animation:fadeSlideUp .35s both;border:{{ day.border }};box-sizing:border-box">
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <div style="font-family:'Caprasimo',system-ui;font-size:15px;color:#2E2A2C">{{ day.label }}</div>
+                    <sc-if value="{{ day.isToday }}" hint-placeholder-val="{{ false }}">
+                      <div style="font-size:9px;padding:2px 8px;border-radius:999px;background:#F1FAEE;color:#355070;letter-spacing:.05em;text-transform:uppercase">Hoy</div>
+                    </sc-if>
+                  </div>
+                  <div style="font-size:11px;color:#2E2A2C;opacity:.5">{{ day.count }} ejercicios</div>
+                </div>
+                <sc-if value="{{ day.list }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;flex-wrap:wrap;gap:8px">
+                    <sc-for list="{{ day.list }}" as="pex" hint-placeholder-count="2">
+                      <div style="display:flex;align-items:center;gap:6px;background:#F6E7E2;border-radius:999px;padding:6px 8px 6px 14px;font-size:12px;color:#2E2A2C;animation:popIn .25s ease both">
+                        {{ pex.name }}
+                        <div onClick="{{ pex.remove }}" style="cursor:pointer;color:#B56576;font-size:13px;line-height:1;padding:2px;transition:transform .12s ease" style-active="transform:scale(.8)">×</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <div onClick="{{ day.togglePicker }}" style="cursor:pointer;align-self:flex-start;font-size:12.5px;color:#B56576;font-weight:600;padding:4px 0;transition:opacity .15s ease" style-hover="opacity:.7" style-active="transform:scale(.97)">
+                  {{ day.pickerLabel }}
+                </div>
+                <sc-if value="{{ day.pickerOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="max-height:180px;overflow-y:auto;background:#F6E7E2;border-radius:14px;padding:6px;display:flex;flex-direction:column;gap:2px;animation:fadeSlideUp .25s ease both">
+                    <sc-for list="{{ day.pickerItems }}" as="pi" hint-placeholder-count="6">
+                      <div onClick="{{ pi.add }}" style="cursor:pointer;padding:8px 10px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;transition:background .12s ease" style-hover="background:#FFFFFF">
+                        <span style="font-size:13px;color:#2E2A2C">{{ pi.name }}</span>
+                        <span style="font-size:10px;color:#355070;opacity:.7">{{ pi.groupName }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- PROGRESS TAB -->
+        <sc-if value="{{ isProgress }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:8px 24px 28px;display:flex;flex-direction:column;gap:14px">
+            <div style="font-family:'Caprasimo',system-ui;font-size:24px;color:#2E2A2C;animation:fadeSlideUp .4s both">Récords</div>
+            <sc-if value="{{ hasPrs }}" hint-placeholder-val="{{ true }}">
+              <sc-for list="{{ prList }}" as="pr" hint-placeholder-count="3">
+                <div style="background:#FFFFFF;border-radius:18px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;animation:fadeSlideUp .35s both">
+                  <div>
+                    <div style="font-family:'Caprasimo',system-ui;font-size:15px;color:#2E2A2C">{{ pr.name }}</div>
+                    <div style="font-size:11px;color:#2E2A2C;opacity:.55">{{ pr.machine }}</div>
+                  </div>
+                  <div style="text-align:right">
+                    <div style="font-size:17px;font-weight:700;color:#B56576">{{ pr.weightLabel }}</div>
+                    <div style="font-size:11px;color:#355070">{{ pr.repsSeries }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </sc-if>
+            <sc-if value="{{ hasPrsInverse }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#FFFFFF;border-radius:18px;padding:24px;text-align:center;font-size:13px;color:#2E2A2C;opacity:.6">Registra tu primera serie para ver récords aquí.</div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- PROFILE TAB -->
+        <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:8px 24px 28px;display:flex;flex-direction:column;gap:16px">
+            <div style="font-family:'Caprasimo',system-ui;font-size:24px;color:#2E2A2C;animation:fadeSlideUp .4s both">Perfil</div>
+            <div style="background:#FFFFFF;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:4px;animation:fadeSlideUp .4s both">
+              <div style="font-family:'Caprasimo',system-ui;font-size:16px;color:#2E2A2C">{{ profile.name }}</div>
+              <div style="font-size:12px;color:#2E2A2C;opacity:.55">{{ profileSummary }}</div>
+            </div>
+            <div style="background:#F1FAEE;border-radius:18px;padding:14px 16px;display:flex;align-items:center;gap:10px;font-size:12.5px;color:#355070;animation:fadeSlideUp .4s .05s both">
+              <span>●</span> Todos tus datos se guardan en tu dispositivo</div>
+            <div style="animation:fadeSlideUp .4s .1s both">
+              <div style="font-size:13px;font-weight:600;color:#2E2A2C;margin-bottom:8px">Unidad de peso</div>
+              <div style="display:inline-flex;border-radius:999px;background:#FFFFFF;padding:4px">
+                <div onClick="{{ setUnitKg }}" style="padding:7px 18px;border-radius:999px;font-size:12.5px;cursor:pointer;transition:background .15s ease,color .15s ease;background:{{ unitKgBg }};color:{{ unitKgColor }}">kg</div>
+                <div onClick="{{ setUnitLb }}" style="padding:7px 18px;border-radius:999px;font-size:12.5px;cursor:pointer;transition:background .15s ease,color .15s ease;background:{{ unitLbBg }};color:{{ unitLbColor }}">lb</div>
+              </div>
+            </div>
+            <div style="background:#FFFFFF;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px;animation:fadeSlideUp .4s .15s both">
+              <div style="font-size:13px;font-weight:600;color:#2E2A2C">Ver mi progreso en otro dispositivo</div>
+              <div style="font-size:11.5px;color:#2E2A2C;opacity:.6;line-height:1.5">Genera un archivo con todo tu progreso y ábrelo tu otro dispositivo para continuar donde lo dejaste.</div>
+              <div style="display:flex;gap:8px">
+                <button onClick="{{ exportProgress }}" style="flex:1;padding:11px;border-radius:999px;border:none;background:#B56576;color:#FFFFFF;font-family:'Figtree';font-weight:600;font-size:12.5px;cursor:pointer;transition:background .15s ease,transform .12s ease" style-hover="background:#9c4f60" style-active="transform:scale(.97)">Exportar archivo</button>
+                <button onClick="{{ triggerImport }}" style="flex:1;padding:11px;border-radius:999px;border:1.5px solid #355070;background:transparent;color:#355070;font-family:'Figtree';font-weight:600;font-size:12.5px;cursor:pointer;transition:background .15s ease,transform .12s ease" style-hover="background:#F1FAEE" style-active="transform:scale(.97)">Importar archivo</button>
+              </div>
+              <input type="file" accept="application/json,.json" ref="{{ fileInputRef }}" onChange="{{ handleImportFile }}" style="display:none">
+              <sc-if value="{{ transferMsg }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:12px;color:#355070;background:#F1FAEE;border-radius:12px;padding:8px 12px;animation:popIn .25s ease both">{{ transferMsg.text }}</div>
+              </sc-if>
+            </div>
+            <div onClick="{{ replayTutorial }}" style="cursor:pointer;align-self:flex-start;font-size:12px;color:#355070;opacity:.6;text-decoration:underline;transition:opacity .15s ease" style-hover="opacity:.9">Ver tutorial de nuevo</div>
+          </div>
+        </sc-if>
+
+        </sc-if>
+
+      </div>
+
+      <sc-if value="{{ isNormalTabs }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex:none;padding-top:6px;background:#F6E7E2">
+        <div onClick="{{ goHome }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0 16px;font-size:10px;cursor:pointer;color:{{ tabColorHome }};transition:color .2s ease" style-active="transform:scale(.92)">
+          <span style="font-size:16px">⌂</span>Inicio
+        </div>
+        <div onClick="{{ goExercises }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0 16px;font-size:10px;cursor:pointer;color:{{ tabColorExercises }};transition:color .2s ease" style-active="transform:scale(.92)">
+          <span style="font-size:16px">▤</span>Ejercicios
+        </div>
+        <div onClick="{{ goCalendar }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0 16px;font-size:10px;cursor:pointer;color:{{ tabColorCalendar }};transition:color .2s ease" style-active="transform:scale(.92)">
+          <span style="font-size:16px">▦</span>Calendario
+        </div>
+        <div onClick="{{ goProgress }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0 16px;font-size:10px;cursor:pointer;color:{{ tabColorProgress }};transition:color .2s ease" style-active="transform:scale(.92)">
+          <span style="font-size:16px">◱</span>Progreso
+        </div>
+        <div onClick="{{ goProfile }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0 16px;font-size:10px;cursor:pointer;color:{{ tabColorProfile }};transition:color .2s ease" style-active="transform:scale(.92)">
+          <span style="font-size:16px">◯</span>Perfil
+        </div>
+      </div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const GROUPS_DATA = [
+  { id: 'pecho', name: 'Pectorales', exercises: [
+    { id: 'aperturas-mancuernas', name: 'Aperturas con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'peck-deck', name: 'Aperturas en máquina Peck Deck o Contractora', machine: 'Máquina', type: 'maquina' },
+    { id: 'aperturas-inclinadas-mancuernas', name: 'Aperturas Inclinadas con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'cruce-poleas', name: 'Cruce de poleas', machine: 'Polea', type: 'maquina' },
+    { id: 'flexiones', name: 'Flexiones', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'press-banca-inclinado-mancuernas', name: 'Press banca inclinado con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'press-banca-barra', name: 'Press de banca con barra', machine: 'Barra', type: 'libre' },
+    { id: 'press-banca-mancuernas', name: 'Press de banca con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'press-banca-declinado-barra', name: 'Press de banca declinado con barra', machine: 'Barra', type: 'libre' },
+    { id: 'press-banca-declinado-mancuernas', name: 'Press de banca declinado con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'press-banca-maquina-sentado', name: 'Press de banca en máquina sentado', machine: 'Máquina', type: 'maquina' },
+    { id: 'press-banca-inclinado-barra', name: 'Press de banca inclinado con barra', machine: 'Barra', type: 'libre' },
+  ]},
+  { id: 'espalda', name: 'Espalda', exercises: [
+    { id: 'elevaciones-barra-fija', name: 'Elevaciones en barra fija', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'elevaciones-barra-fija-supinado', name: 'Elevaciones en barra fija con agarre supinado', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'elevaciones-tras-nuca-barra-fija', name: 'Elevaciones tras nuca en barra fija', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'encogimiento-hombros-barra', name: 'Encogimiento de hombros con barra', machine: 'Barra', type: 'libre' },
+    { id: 'encogimiento-hombros-mancuernas', name: 'Encogimiento de hombros con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'jalon-pecho-agarre-cerrado', name: 'Jalón al pecho con agarre cerrado', machine: 'Polea', type: 'maquina' },
+    { id: 'jalon-pecho-agarre-invertido', name: 'Jalón al pecho con agarre invertido', machine: 'Polea', type: 'maquina' },
+    { id: 'jalon-agarre-ancho', name: 'Jalón con agarre ancho', machine: 'Polea', type: 'maquina' },
+    { id: 'jalon-dorsal-brazos-rectos', name: 'Jalón dorsal con brazos rectos', machine: 'Polea', type: 'maquina' },
+    { id: 'jalon-polea-cuerda', name: 'Jalón en polea con cuerda', machine: 'Polea', type: 'maquina' },
+    { id: 'jalon-tras-nuca', name: 'Jalón tras nuca', machine: 'Polea', type: 'maquina' },
+    { id: 'peso-muerto-barra', name: 'Peso muerto con barra', machine: 'Barra', type: 'libre' },
+    { id: 'peso-muerto-barra-hexagonal', name: 'Peso muerto con barra hexagonal', machine: 'Barra hexagonal', type: 'libre' },
+    { id: 'peso-muerto-mancuernas', name: 'Peso muerto con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'peso-muerto-sumo-barra', name: 'Peso muerto sumo con barra', machine: 'Barra', type: 'libre' },
+    { id: 'pullover-barra', name: 'Pullover con barra', machine: 'Barra', type: 'libre' },
+    { id: 'pullover-mancuerna', name: 'Pullover con mancuerna', machine: 'Mancuerna', type: 'libre' },
+    { id: 'remo-barra', name: 'Remo con barra', machine: 'Barra', type: 'libre' },
+    { id: 'remo-mancuerna-una-mano', name: 'Remo con mancuerna a una mano', machine: 'Mancuerna', type: 'libre' },
+    { id: 'remo-barra-t', name: 'Remo en barra T', machine: 'Barra T', type: 'libre' },
+    { id: 'remo-maquina', name: 'Remo en máquina', machine: 'Máquina', type: 'maquina' },
+    { id: 'remo-inclinado-barra-supinado', name: 'Remo inclinado con barra con agarre supinado', machine: 'Barra', type: 'libre' },
+    { id: 'remo-inclinado-mancuernas', name: 'Remo inclinado con mancuernas', machine: 'Mancuernas', type: 'libre' },
+  ]},
+  { id: 'hombros', name: 'Hombros', exercises: [
+    { id: 'cruces-inversos-polea-alta', name: 'Cruces inversos en polea alta', machine: 'Polea', type: 'maquina' },
+    { id: 'elevacion-frontal-mancuerna-dos-manos', name: 'Elevación frontal con mancuerna a dos manos', machine: 'Mancuerna', type: 'libre' },
+    { id: 'elevacion-frontal-mancuernas', name: 'Elevación frontal con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'elevacion-frontal-mancuernas-alternas-neutro', name: 'Elevación frontal con mancuernas alternas agarre neutro', machine: 'Mancuernas', type: 'libre' },
+    { id: 'elevacion-frontal-un-brazo-polea-baja-neutro', name: 'Elevación frontal con un brazo en polea baja agarre neutro', machine: 'Polea', type: 'maquina' },
+    { id: 'elevacion-lateral-cable-una-mano', name: 'Elevación lateral con cable a una mano', machine: 'Polea', type: 'maquina' },
+    { id: 'elevacion-lateral-mancuernas', name: 'Elevación lateral con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'elevaciones-frontales-barra', name: 'Elevaciones frontales con barra', machine: 'Barra', type: 'libre' },
+    { id: 'elevaciones-frontales-cable-una-mano', name: 'Elevaciones frontales con cable a una mano', machine: 'Polea', type: 'maquina' },
+    { id: 'elevaciones-posteriores-pajaro', name: 'Elevaciones posteriores para hombros "Pájaro"', machine: 'Mancuernas', type: 'libre' },
+    { id: 'press-hombro-mancuernas', name: 'Press de hombro con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'press-hombros-smith', name: 'Press de hombros en Máquina Smith', machine: 'Máquina Smith', type: 'maquina' },
+    { id: 'press-militar', name: 'Press Militar', machine: 'Barra', type: 'libre' },
+    { id: 'press-militar-mancuernas', name: 'Press Militar con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'press-militar-pie', name: 'Press militar de pie', machine: 'Barra', type: 'libre' },
+    { id: 'press-militar-pie-tras-nuca', name: 'Press militar de pie tras nuca', machine: 'Barra', type: 'libre' },
+    { id: 'press-militar-sentado-barra', name: 'Press militar sentado con barra', machine: 'Barra', type: 'libre' },
+    { id: 'press-tras-nuca-sentado', name: 'Press tras nuca sentado', machine: 'Barra', type: 'libre' },
+    { id: 'remo-alto-barra', name: 'Remo alto con barra', machine: 'Barra', type: 'libre' },
+  ]},
+  { id: 'biceps', name: 'Bíceps', exercises: [
+    { id: 'curl-alterno-mancuernas', name: 'Curl alterno con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'curl-martillo', name: 'Curl alterno de martillo con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'curl-barra', name: 'Curl con barra', machine: 'Barra', type: 'libre' },
+    { id: 'curl-barra-ez', name: 'Curl con barra EZ', machine: 'Barra Z', type: 'libre' },
+    { id: 'curl-cuerda-polea', name: 'Curl con cuerda en polea', machine: 'Polea', type: 'maquina' },
+    { id: 'curl-concentrado-mancuernas', name: 'Curl concentrado con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'curl-barra-invertido', name: 'Curl de barra invertido', machine: 'Barra', type: 'libre' },
+    { id: 'curl-cable-barra-recta-polea-baja', name: 'Curl de cable con barra recta en polea baja', machine: 'Polea', type: 'maquina' },
+    { id: 'curl-cable-polea-alta-pie', name: 'Curl de cable en polea alta de pie', machine: 'Polea', type: 'maquina' },
+    { id: 'curl-cable-polea-baja-una-mano', name: 'Curl de cable en polea baja a una mano', machine: 'Polea', type: 'maquina' },
+    { id: 'curl-muneca-barra-sentado', name: 'Curl de muñeca con barra sentado', machine: 'Barra', type: 'libre' },
+    { id: 'curl-predicador-barra-ez', name: 'Curl de predicador con barra EZ', machine: 'Barra Z', type: 'libre' },
+    { id: 'curl-inclinado-mancuernas', name: 'Curl inclinado con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'extension-muneca-barra-sentado', name: 'Extensión de muñeca con barra sentado', machine: 'Barra', type: 'libre' },
+  ]},
+  { id: 'triceps', name: 'Tríceps', exercises: [
+    { id: 'extension-triceps-cable-una-mano', name: 'Extensión de tríceps con cable a una mano', machine: 'Polea', type: 'maquina' },
+    { id: 'extension-triceps-cable-una-mano-supinado', name: 'Extensión de tríceps con cable a una mano con agarre supinado', machine: 'Polea', type: 'maquina' },
+    { id: 'extension-triceps-cable-agarre-inverso-barra', name: 'Extensión de tríceps con cable de agarre inverso con barra', machine: 'Polea', type: 'maquina' },
+    { id: 'extension-triceps-mancuernas-cabeza', name: 'Extensión de tríceps con mancuernas por encima de la cabeza', machine: 'Mancuerna', type: 'libre' },
+    { id: 'extension-triceps-mancuernas-tumbado', name: 'Extensión de tríceps con mancuernas tumbado', machine: 'Mancuerna', type: 'libre' },
+    { id: 'extension-triceps-polea', name: 'Extensión de tríceps en polea', machine: 'Polea', type: 'maquina' },
+    { id: 'extension-triceps-polea-cuerda', name: 'Extensión de tríceps en polea con cuerda', machine: 'Polea', type: 'maquina' },
+    { id: 'extension-triceps-tumbado', name: 'Extensión de tríceps tumbado', machine: 'Barra', type: 'libre' },
+    { id: 'fondos-banco', name: 'Fondos en banco', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'fondos-barras-paralelas', name: 'Fondos en barras paralelas', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'patadas-traseras', name: 'Patadas traseras', machine: 'Mancuerna', type: 'libre' },
+    { id: 'press-banca-agarre-cerrado', name: 'Press Banca con agarre cerrado', machine: 'Barra', type: 'libre' },
+    { id: 'press-frances-sentado-barra', name: 'Press francés sentado con barra', machine: 'Barra', type: 'libre' },
+  ]},
+  { id: 'abdominales', name: 'Abdominales', exercises: [
+    { id: 'abdominales-brazos-estirados', name: 'Abdominales con brazos estirados', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'abdominales-cuerda-polea-alta', name: 'Abdominales con cuerda en polea alta', machine: 'Polea', type: 'maquina' },
+    { id: 'abdominales-maquina', name: 'Abdominales en máquina', machine: 'Máquina', type: 'maquina' },
+    { id: 'crunch', name: 'Crunch', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'crunch-obliquo', name: 'Crunch oblicuo', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'elevacion-piernas', name: 'Elevación de piernas', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'encogimientos-rodillas-abdominales', name: 'Encogimientos de rodillas para abdominales', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'plancha', name: 'Plancha', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'plancha-flexion', name: 'Plancha con flexión', machine: 'Peso corporal', type: 'corporal' },
+  ]},
+  { id: 'piernas', name: 'Piernas', exercises: [
+    { id: 'sentadillas-1-5-rep', name: '1.5 repeticiones de sentadillas con propio peso', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'abduccion-polea', name: 'Abducción con polea', machine: 'Polea', type: 'maquina' },
+    { id: 'abduccion-cadera-maquina', name: 'Abducción de cadera con máquina de abducción de cadera', machine: 'Máquina', type: 'maquina' },
+    { id: 'abducciones-cadera-sentado-banda', name: 'Abducciones de cadera sentado con banda', machine: 'Banda elástica', type: 'corporal' },
+    { id: 'almejas-laterales-banda', name: 'Almejas laterales con banda', machine: 'Banda elástica', type: 'corporal' },
+    { id: 'burpees', name: 'Burpees', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'caminata-pato', name: 'Caminata de pato', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'caminata-lateral-minibanda', name: 'Caminata lateral con minibanda', machine: 'Banda elástica', type: 'corporal' },
+    { id: 'columpios-kettlebell', name: 'Columpios con kettlebell', machine: 'Kettlebell', type: 'libre' },
+    { id: 'contragolpe-cable', name: 'Contragolpe con cable', machine: 'Polea', type: 'maquina' },
+    { id: 'curl-pierna-tumbado-femoral', name: 'Curl de pierna tumbado en máquina de femoral', machine: 'Máquina', type: 'maquina' },
+    { id: 'curl-piernas-sentado', name: 'Curl de piernas sentado', machine: 'Máquina', type: 'maquina' },
+    { id: 'buenos-dias-barra', name: 'Ejercicio "buenos días" con barra', machine: 'Barra', type: 'libre' },
+    { id: 'superman-cuadrupedia', name: 'Ejercicio Superman en cuadrupedia', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'elevaciones-rana-smith', name: 'Elevaciones cortas en posición de rana con maquina Smith', machine: 'Máquina Smith', type: 'maquina' },
+    { id: 'elevaciones-biceps-femoral-ghd', name: 'Elevaciones de bíceps femoral con máquina GHD', machine: 'Máquina GHD', type: 'maquina' },
+    { id: 'elevaciones-cadera-acostado-lateral', name: 'Elevaciones de cadera acostado lateralmente', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'elevaciones-cadera-barra', name: 'Elevaciones de cadera con barra', machine: 'Barra', type: 'libre' },
+    { id: 'elevaciones-cadera-smith', name: 'Elevaciones de cadera con maquina Smith', machine: 'Máquina Smith', type: 'maquina' },
+    { id: 'elevaciones-rodilla', name: 'Elevaciones de rodilla', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'elevaciones-rana-propio-peso', name: 'Elevaciones en posición de rana con propio peso', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'extension-una-pierna', name: 'Extensión a una pierna', machine: 'Máquina', type: 'maquina' },
+    { id: 'extension-piernas', name: 'Extensión de piernas', machine: 'Máquina', type: 'maquina' },
+    { id: 'hidrantes', name: 'Hidrantes', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'levantamiento-pierna-acostado-lado', name: 'Levantamiento de pierna acostado de lado', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'groiners', name: 'Los Groiners', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'patadas-burro', name: 'Patadas de burro', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'peso-muerto-una-pierna', name: 'Peso muerto a una pierna', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'peso-muerto-balon-medicinal', name: 'Peso muerto con balón medicinal', machine: 'Balón medicinal', type: 'libre' },
+    { id: 'peso-muerto-rumano-barra', name: 'Peso muerto rumano (piernas rectas) con barra', machine: 'Barra', type: 'libre' },
+    { id: 'peso-muerto-rumano-mancuernas', name: 'Peso muerto rumano (piernas rectas) con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'prensa-piernas', name: 'Prensa de piernas', machine: 'Máquina', type: 'maquina' },
+    { id: 'puente-bandas', name: 'Puente con bandas', machine: 'Banda elástica', type: 'corporal' },
+    { id: 'puente-propio-peso', name: 'Puente con propio peso', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'puentes-una-pierna', name: 'Puentes a una pierna', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'salto-rodillas-pecho', name: 'Salto Rodillas al Pecho', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'sentadilla', name: 'Sentadilla', machine: 'Barra', type: 'libre' },
+    { id: 'sentadilla-bulgara-barra', name: 'Sentadilla búlgara con barra', machine: 'Barra', type: 'libre' },
+    { id: 'sentadilla-bulgara-propio-peso', name: 'Sentadilla búlgara con propio peso', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'sentadilla-mini-banda', name: 'Sentadilla con mini banda', machine: 'Banda elástica', type: 'corporal' },
+    { id: 'sentadilla-salto', name: 'Sentadilla con salto', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'sentadilla-frontal', name: 'Sentadilla frontal', machine: 'Barra', type: 'libre' },
+    { id: 'sentadilla-goblet-mancuerna', name: 'Sentadilla Goblet con mancuerna', machine: 'Mancuerna', type: 'libre' },
+    { id: 'sentadilla-hack', name: 'Sentadilla Hack', machine: 'Máquina', type: 'maquina' },
+    { id: 'sentadilla-isometrica-pared', name: 'Sentadilla isométrica apoyado sobre la pared', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'sentadilla-posturas-funcionales', name: 'Sentadilla Posturas funcionales', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'sentadilla-sumo-kettlebell', name: 'Sentadilla sumo con kettlebell', machine: 'Kettlebell', type: 'libre' },
+    { id: 'sentadillas-balon-medicinal', name: 'Sentadillas con balón medicinal', machine: 'Balón medicinal', type: 'libre' },
+    { id: 'sentadillas-propio-peso', name: 'Sentadillas con propio peso', machine: 'Peso corporal', type: 'corporal' },
+    { id: 'step-up-mancuernas', name: 'Step Up con mancuernas', machine: 'Mancuernas', type: 'libre' },
+    { id: 'zancada', name: 'Zancada', machine: 'Mancuernas', type: 'libre' },
+  ]},
+  { id: 'gemelos', name: 'Gemelos', exercises: [
+    { id: 'elevacion-gemelos-pie', name: 'Elevación de gemelos de pie', machine: 'Máquina', type: 'maquina' },
+    { id: 'elevacion-gemelos-sentado', name: 'Elevación de gemelos sentado', machine: 'Máquina', type: 'maquina' },
+  ]},
+];
+const TYPE_LABELS = { maquina: 'Máquina', libre: 'Peso libre', corporal: 'Peso corporal · sin máquina' };
+
+const rep3 = (w, r) => [{ weight: w, reps: r }, { weight: w, reps: r }, { weight: w, reps: r }];
+const SEED_SETS = {
+  'peck-deck': [
+    { date: '26 jul', sets: rep3(40, 10) },
+    { date: '21 jul', sets: rep3(37.5, 10) },
+    { date: '18 jul', sets: rep3(37.5, 8) },
+    { date: '14 jul', sets: rep3(35, 8) },
+  ],
+};
+const defaultMultiRows = () => [{ weight: '', reps: '' }, { weight: '', reps: '' }];
+
+const DAY_DEFS = [
+  { key: 'mon', label: 'Lunes', short: 'Lun' },
+  { key: 'tue', label: 'Martes', short: 'Mar' },
+  { key: 'wed', label: 'Miércoles', short: 'Mié' },
+  { key: 'thu', label: 'Jueves', short: 'Jue' },
+  { key: 'fri', label: 'Viernes', short: 'Vie' },
+  { key: 'sat', label: 'Sábado', short: 'Sáb' },
+  { key: 'sun', label: 'Domingo', short: 'Dom' },
+];
+const ALL_EXERCISES_FLAT = GROUPS_DATA.flatMap(g => g.exercises.map(ex => ({ id: ex.id, name: ex.name, groupName: g.name })));
+
+class Component extends DCLogic {
+  state = {
+    tab: 'home', groupId: null, exerciseId: null,
+    setsByExercise: SEED_SETS,
+    form: { weight: '40', reps: '10', series: '3' },
+    justPr: false, unit: 'kg', navSeq: 0,
+    weekPlan: {}, pickerDay: null,
+    logMode: 'linear', multiRows: defaultMultiRows(),
+    transferMsg: null,
+    onboardStep: null, tutStep: 1, formError: null,
+    profile: { name: '', weight: '', height: '', age: '', goal: 'ganar' },
+    workoutActive: false, workoutSteps: [], workoutStepIndex: 0, workoutPhase: 'set',
+    restMinutes: 1.5, restRemaining: 0, workoutCollected: {},
+    restCustomActive: false, customMin: '', customSec: '30',
+    customExercises: {}, addFormGroupId: null, addForm: { name: '', machine: '', type: 'maquina' },
+    favorites: {}, exerciseNotes: {}, exerciseNotesSeed: {},
+    heroIndex: 0, heroDragPx: 0, heroDragging: false,
+    viewportMode: 'desktop',
+  };
+
+  fileInputRef = React.createRef();
+  restInterval = null;
+
+  componentWillUnmount() {
+    if (this.restInterval) clearInterval(this.restInterval);
+    if (this._updateViewportMode) window.removeEventListener('resize', this._updateViewportMode);
+  }
+
+  computeShellStyles(mode) {
+    if (mode === 'device') {
+      return {
+        outer: "min-height:100vh;background:#F6E7E2;display:flex;align-items:center;justify-content:center;padding:0;font-family:'Figtree',system-ui,sans-serif;box-sizing:border-box",
+        bezel: "width:100%;height:100vh;border-radius:0;background:transparent;padding:0;box-shadow:none;flex:none",
+        screen: "position:relative;width:100%;height:100%;border-radius:0;background:#F6E7E2;overflow:hidden;display:flex;flex-direction:column",
+      };
+    }
+    return {
+      outer: "min-height:100vh;background:#EFE6E1;display:flex;align-items:center;justify-content:center;padding:48px;font-family:'Figtree',system-ui,sans-serif;box-sizing:border-box",
+      bezel: "width:380px;height:800px;border-radius:48px;background:#2E2A2C;padding:12px;box-shadow:0 30px 70px rgba(46,42,44,.28);flex:none",
+      screen: "position:relative;width:100%;height:100%;border-radius:38px;background:#F6E7E2;overflow:hidden;display:flex;flex-direction:column",
+    };
+  }
+
+  startWorkout(steps) {
+    this.setState({ workoutActive: true, workoutSteps: steps, workoutStepIndex: 0, workoutPhase: 'set', workoutCollected: {} });
+  }
+
+  completeSet() {
+    const step = this.state.workoutSteps[this.state.workoutStepIndex];
+    if (!step) return;
+    const collected = Object.assign({}, this.state.workoutCollected);
+    const arr = collected[step.exerciseId] ? collected[step.exerciseId].slice() : [];
+    arr.push({ weight: step.weight, reps: step.reps });
+    collected[step.exerciseId] = arr;
+    this.setState({ workoutCollected: collected, workoutPhase: 'choice' });
+  }
+
+  advanceStepOrFinish() {
+    if (this.state.workoutStepIndex < this.state.workoutSteps.length - 1) {
+      this.setState({ workoutStepIndex: this.state.workoutStepIndex + 1, workoutPhase: 'set' });
+    } else {
+      this.finishWorkout();
+    }
+  }
+
+  chooseRest() { this.setState({ workoutPhase: 'restPick' }); }
+  setRestMinutes(v) { this.setState({ restMinutes: v, restCustomActive: false }); }
+  activateCustomRest() { this.setState({ restCustomActive: true }); }
+  setCustomMin(v) { this.setState({ customMin: v }); }
+  setCustomSec(v) { this.setState({ customSec: v }); }
+
+  startRestCountdown() {
+    const seconds = this.state.restCustomActive
+      ? Math.max(5, (parseInt(this.state.customMin) || 0) * 60 + (parseInt(this.state.customSec) || 0))
+      : Math.round(this.state.restMinutes * 60);
+    this.setState({ workoutPhase: 'restRunning', restRemaining: seconds });
+    this.restInterval = setInterval(() => {
+      const next = this.state.restRemaining - 1;
+      if (next <= 0) {
+        clearInterval(this.restInterval); this.restInterval = null;
+        this.setState({ restRemaining: 0 });
+        this.advanceStepOrFinish();
+      } else {
+        this.setState({ restRemaining: next });
+      }
+    }, 1000);
+  }
+
+  skipRest() {
+    if (this.restInterval) { clearInterval(this.restInterval); this.restInterval = null; }
+    this.advanceStepOrFinish();
+  }
+
+  finishWorkout() {
+    const nextSets = Object.assign({}, this.state.setsByExercise);
+    Object.keys(this.state.workoutCollected).forEach(exId => {
+      const sets = this.state.workoutCollected[exId];
+      if (!sets.length) return;
+      const existing = nextSets[exId] || [];
+      nextSets[exId] = [{ date: 'Hoy', sets }, ...existing];
+    });
+    this.setState({ setsByExercise: nextSets, workoutPhase: 'complete' });
+    this.persist(nextSets);
+  }
+
+  exitWorkout() {
+    if (this.restInterval) { clearInterval(this.restInterval); this.restInterval = null; }
+    this.setState({ workoutActive: false, workoutPhase: 'set', workoutStepIndex: 0, workoutCollected: {} });
+  }
+
+  persistCustom(custom) {
+    try { localStorage.setItem('gymapp_custom_exercises_v1', JSON.stringify(custom)); } catch (e) {}
+  }
+
+  openAddForm(groupId) { this.setState({ addFormGroupId: groupId, addForm: { name: '', machine: '', type: 'maquina' } }); }
+  closeAddForm() { this.setState({ addFormGroupId: null }); }
+  setAddFormField(field, val) { this.setState({ addForm: Object.assign({}, this.state.addForm, { [field]: val }) }); }
+
+  saveCustomExercise(groupId) {
+    const f = this.state.addForm;
+    if (!f.name.trim()) return;
+    const ex = { id: `custom-${Date.now()}`, name: f.name.trim(), machine: f.machine.trim() || TYPE_LABELS[f.type], type: f.type, isCustom: true };
+    const current = this.state.customExercises[groupId] || [];
+    const next = Object.assign({}, this.state.customExercises, { [groupId]: [...current, ex] });
+    this.setState({ customExercises: next, addFormGroupId: null });
+    this.persistCustom(next);
+  }
+
+  removeCustomExercise(groupId, exId) {
+    const current = this.state.customExercises[groupId] || [];
+    const next = Object.assign({}, this.state.customExercises, { [groupId]: current.filter(e => e.id !== exId) });
+    this.setState({ customExercises: next });
+    this.persistCustom(next);
+  }
+
+  submitProfileForm() {
+    if (!this.state.profile.name.trim()) { this.setState({ formError: 'Cuéntanos al menos tu nombre.' }); return; }
+    try { localStorage.setItem('gymapp_profile_v1', JSON.stringify(this.state.profile)); } catch (e) {}
+    this.setState({ onboardStep: 'tutorial', tutStep: 1, formError: null });
+  }
+
+  nextTutStep() {
+    if (this.state.tutStep < 5) this.setState({ tutStep: this.state.tutStep + 1 });
+    else this.setState({ onboardStep: 'final' });
+  }
+
+  prevTutStep() { this.setState({ tutStep: Math.max(1, this.state.tutStep - 1) }); }
+  skipTutorial() { this.setState({ onboardStep: 'final' }); }
+  replayTutorial() { this.setState({ onboardStep: 'tutorial', tutStep: 1 }); }
+
+  finishOnboarding() {
+    try { localStorage.setItem('gymapp_onboarded_v1', 'true'); } catch (e) {}
+    this.setState({ onboardStep: null });
+  }
+
+  exportProgress() {
+    const payload = JSON.stringify({ sets: this.state.setsByExercise, week: this.state.weekPlan, unit: this.state.unit }, null, 2);
+    const blob = new Blob([payload], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'mi-progreso-gym.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    this.setState({ transferMsg: { ok: true, text: 'Archivo generado. Envíalo a tu otro dispositivo.' } });
+    setTimeout(() => this.setState({ transferMsg: null }), 4000);
+  }
+
+  triggerImport() { if (this.fileInputRef.current) this.fileInputRef.current.click(); }
+
+  handleImportFile(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        const cleanSets = {};
+        Object.keys(data.sets || {}).forEach(id => {
+          cleanSets[id] = (data.sets[id] || []).filter(sn => sn && Array.isArray(sn.sets) && sn.sets.length > 0);
+        });
+        const nextSets = Object.assign({}, SEED_SETS, cleanSets);
+        const nextWeek = data.week || {};
+        this.setState({ setsByExercise: nextSets, weekPlan: nextWeek, unit: data.unit || this.state.unit, transferMsg: { ok: true, text: 'Progreso importado correctamente.' } });
+        this.persist(nextSets); this.persistWeek(nextWeek);
+      } catch (err) {
+        this.setState({ transferMsg: { ok: false, text: 'El archivo no es válido.' } });
+      }
+      setTimeout(() => this.setState({ transferMsg: null }), 4000);
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  }
+
+  componentDidMount() {
+    try {
+      const saved = JSON.parse(localStorage.getItem('gymapp_sets_v2') || 'null');
+      if (saved) {
+        const clean = {};
+        Object.keys(saved).forEach(id => {
+          const sessions = Array.isArray(saved[id]) ? saved[id] : [];
+          clean[id] = sessions.filter(sn => sn && Array.isArray(sn.sets) && sn.sets.length > 0);
+        });
+        this.setState({ setsByExercise: Object.assign({}, SEED_SETS, clean) });
+      }
+    } catch (e) {}
+    try {
+      const savedWeek = JSON.parse(localStorage.getItem('gymapp_week_v1') || 'null');
+      if (savedWeek) this.setState({ weekPlan: savedWeek });
+    } catch (e) {}
+    try {
+      const savedProfile = JSON.parse(localStorage.getItem('gymapp_profile_v1') || 'null');
+      if (savedProfile) this.setState({ profile: Object.assign({}, this.state.profile, savedProfile) });
+    } catch (e) {}
+    try {
+      const onboarded = localStorage.getItem('gymapp_onboarded_v1') === 'true';
+      if (!onboarded) this.setState({ onboardStep: 'form' });
+    } catch (e) {}
+    try {
+      const savedCustom = JSON.parse(localStorage.getItem('gymapp_custom_exercises_v1') || 'null');
+      if (savedCustom) this.setState({ customExercises: savedCustom });
+    } catch (e) {}
+    try {
+      const savedFav = JSON.parse(localStorage.getItem('gymapp_favorites_v1') || 'null');
+      if (savedFav) this.setState({ favorites: savedFav });
+    } catch (e) {}
+    try {
+      const savedNotes = JSON.parse(localStorage.getItem('gymapp_exercise_notes_v1') || 'null');
+      if (savedNotes) this.setState({ exerciseNotes: savedNotes });
+    } catch (e) {}
+    import('./exercise-notes.js').then(m => this.setState({ exerciseNotesSeed: m.EXERCISE_NOTES || {} })).catch(() => {});
+    this._updateViewportMode = () => {
+      let standalone = false;
+      try { standalone = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches; } catch (e) {}
+      const narrow = window.innerWidth <= 640;
+      const mode = (standalone || narrow) ? 'device' : 'desktop';
+      if (mode !== this.state.viewportMode) this.setState({ viewportMode: mode });
+    };
+    this._updateViewportMode();
+    window.addEventListener('resize', this._updateViewportMode);
+  }
+
+  toggleFavorite(exId) {
+    const next = Object.assign({}, this.state.favorites);
+    if (next[exId]) delete next[exId]; else next[exId] = true;
+    this.setState({ favorites: next });
+    try { localStorage.setItem('gymapp_favorites_v1', JSON.stringify(next)); } catch (e) {}
+  }
+
+  updateExerciseNote(exId, field, value) {
+    if (!exId) return;
+    const current = this.state.exerciseNotes[exId] || { posInicial: '', ejecucion: '' };
+    const next = Object.assign({}, this.state.exerciseNotes, { [exId]: Object.assign({}, current, { [field]: value }) });
+    this.setState({ exerciseNotes: next });
+    try { localStorage.setItem('gymapp_exercise_notes_v1', JSON.stringify(next)); } catch (e) {}
+  }
+
+  heroPointerDown(e) {
+    this._heroStartX = e.clientX;
+    this.setState({ heroDragging: true, heroDragPx: 0 });
+  }
+
+  heroPointerMove(e) {
+    if (!this.state.heroDragging) return;
+    this.setState({ heroDragPx: e.clientX - this._heroStartX });
+  }
+
+  heroPointerUp() {
+    const s = this.state;
+    if (!s.heroDragging) return;
+    const threshold = 50;
+    let idx = s.heroIndex;
+    if (s.heroDragPx <= -threshold && idx < 1) idx += 1;
+    else if (s.heroDragPx >= threshold && idx > -1) idx -= 1;
+    this.setState({ heroDragging: false, heroDragPx: 0, heroIndex: idx });
+  }
+
+  persist(sets) {
+    try { localStorage.setItem('gymapp_sets_v2', JSON.stringify(sets)); } catch (e) {}
+  }
+
+  persistWeek(plan) {
+    try { localStorage.setItem('gymapp_week_v1', JSON.stringify(plan)); } catch (e) {}
+  }
+
+  addToDay(dayKey, ex) {
+    const current = this.state.weekPlan[dayKey] || [];
+    if (current.some(e => e.id === ex.id)) { this.setState({ pickerDay: null }); return; }
+    const next = Object.assign({}, this.state.weekPlan, { [dayKey]: [...current, { id: ex.id, name: ex.name }] });
+    this.setState({ weekPlan: next, pickerDay: null });
+    this.persistWeek(next);
+  }
+
+  removeFromDay(dayKey, exId) {
+    const current = this.state.weekPlan[dayKey] || [];
+    const next = Object.assign({}, this.state.weekPlan, { [dayKey]: current.filter(e => e.id !== exId) });
+    this.setState({ weekPlan: next });
+    this.persistWeek(next);
+  }
+
+  updateMultiRow(i, field, val) {
+    const rows = this.state.multiRows.map((r, idx) => idx === i ? Object.assign({}, r, { [field]: val }) : r);
+    this.setState({ multiRows: rows });
+  }
+
+  addMultiRow() { this.setState({ multiRows: [...this.state.multiRows, { weight: '', reps: '' }] }); }
+
+  removeMultiRow(i) {
+    if (this.state.multiRows.length <= 1) return;
+    this.setState({ multiRows: this.state.multiRows.filter((_, idx) => idx !== i) });
+  }
+
+  findGroup(id) { return GROUPS_DATA.find(g => g.id === id) || null; }
+  findExercise(group, id) { return group ? group.exercises.find(e => e.id === id) : null; }
+
+  renderVals() {
+    const s = this.state;
+    const groupObj = this.findGroup(s.groupId);
+    const combinedExercises = groupObj ? [...groupObj.exercises, ...(s.customExercises[groupObj.id] || [])] : [];
+    const exerciseObj = combinedExercises.find(e => e.id === s.exerciseId) || null;
+
+    const groups = GROUPS_DATA.map((g, i) => ({
+      name: g.name, count: g.exercises.length + (s.customExercises[g.id] || []).length,
+      imgId: `group-${g.id}`,
+      open: () => this.setState({ tab: 'exercises', groupId: g.id, exerciseId: null, navSeq: s.navSeq + 1 }),
+    }));
+
+    const sortedExercises = combinedExercises.slice().sort((a, b) => (s.favorites[b.id] ? 1 : 0) - (s.favorites[a.id] ? 1 : 0));
+    const exercisesForGroup = sortedExercises.map(ex => ({
+      id: ex.id, name: ex.name, machine: ex.machine, tag: ex.tag || ex.name.slice(0, 10),
+      thumbId: `ex-hero-${ex.id}`,
+      typeLabel: TYPE_LABELS[ex.type || 'maquina'], isCustom: !!ex.isCustom,
+      favFill: s.favorites[ex.id] ? '#B56576' : 'none',
+      toggleFav: () => this.toggleFavorite(ex.id),
+      open: () => this.setState({ exerciseId: ex.id, navSeq: s.navSeq + 1, logMode: 'linear', multiRows: defaultMultiRows(), heroIndex: 0, heroDragPx: 0, heroDragging: false }),
+      remove: ex.isCustom ? () => this.removeCustomExercise(groupObj.id, ex.id) : null,
+    }));
+    const isAddFormOpenHere = groupObj && s.addFormGroupId === groupObj.id;
+
+    const unitLabel = s.unit === 'kg' ? 'kg' : 'lb';
+    const rawSessions = (exerciseObj && s.setsByExercise[exerciseObj.id]) || [];
+    const sessions = rawSessions.filter(sn => sn && Array.isArray(sn.sets) && sn.sets.length > 0);
+    const sessionWeightLabel = session => {
+      const ws = session.sets.map(x => x.weight);
+      return ws.every(w => w === ws[0]) ? `${ws[0]} ${unitLabel}` : `${Math.min(...ws)}-${Math.max(...ws)} ${unitLabel}`;
+    };
+    const sessionRepsLabel = session => {
+      const rs = session.sets.map(x => x.reps);
+      return rs.every(r => r === rs[0]) ? `${rs[0]}×${session.sets.length}` : rs.join('-') + ' reps';
+    };
+    const historyRows = sessions.slice(0, 4).map(session => ({
+      date: session.date, weightLabel: sessionWeightLabel(session), repsSeries: sessionRepsLabel(session),
+    }));
+    const chronological = sessions.slice(0, 6).slice().reverse();
+    const maxW = Math.max(1, ...chronological.map(session => Math.max(...session.sets.map(x => x.weight))));
+    const colors = ['#E4A3B3', '#E4A3B3', '#d99aa8', '#c9808f', '#b56576', '#9c4f60'];
+    const bars = chronological.map((session, i) => ({
+      height: Math.max(18, Math.round((Math.max(...session.sets.map(x => x.weight)) / maxW) * 100)) + '%',
+      color: colors[Math.min(i, colors.length - 1)],
+    }));
+    while (bars.length < 1) bars.push({ height: '10%', color: '#E4A3B3' });
+
+    const allPrs = Object.keys(s.setsByExercise).map(id => {
+      let group = null, ex = null;
+      for (const g of GROUPS_DATA) { const found = g.exercises.find(e => e.id === id); if (found) { group = g; ex = found; break; } }
+      if (!ex) return null;
+      const validSessions = (s.setsByExercise[id] || []).filter(sn => sn && Array.isArray(sn.sets) && sn.sets.length > 0);
+      const flatSets = validSessions.flatMap(session => session.sets);
+      if (!flatSets.length) return null;
+      const best = flatSets.reduce((a, b) => (b.weight > a.weight ? b : a));
+      return { name: ex.name, machine: ex.machine, weightLabel: `${best.weight} ${unitLabel}`, repsSeries: `${best.reps} reps` };
+    }).filter(Boolean);
+
+    const lastPrEntry = allPrs.length ? allPrs[allPrs.length - 1] : null;
+
+    const jsDay = new Date().getDay();
+    const todayKey = DAY_DEFS[(jsDay + 6) % 7].key;
+    const days = DAY_DEFS.map(d => {
+      const list = (s.weekPlan[d.key] || []).map(ex => ({
+        name: ex.name,
+        remove: () => this.removeFromDay(d.key, ex.id),
+      }));
+      const pickerOpen = s.pickerDay === d.key;
+      const already = (s.weekPlan[d.key] || []).map(e => e.id);
+      const customFlat = Object.keys(s.customExercises).flatMap(gid =>
+        (s.customExercises[gid] || []).map(ex => ({ id: ex.id, name: ex.name, groupName: (GROUPS_DATA.find(g => g.id === gid) || {}).name || '' }))
+      );
+      const pickerItems = ALL_EXERCISES_FLAT.concat(customFlat).filter(ex => !already.includes(ex.id)).map(ex => ({
+        name: ex.name, groupName: ex.groupName,
+        add: () => this.addToDay(d.key, ex),
+      }));
+      return {
+        key: d.key, label: d.label, isToday: d.key === todayKey,
+        border: d.key === todayKey ? '1.5px solid #B56576' : '1.5px solid transparent',
+        list, count: list.length, pickerOpen, pickerItems,
+        pickerLabel: pickerOpen ? '– Cerrar' : '+ Añadir ejercicio',
+        togglePicker: () => this.setState({ pickerDay: pickerOpen ? null : d.key }),
+      };
+    });
+
+    const todayPlannedRaw = s.weekPlan[todayKey] || [];
+    const todayPlanSteps = [];
+    const todayPlanPreview = [];
+    todayPlannedRaw.forEach(pex => {
+      const priorSessions = (s.setsByExercise[pex.id] || []).filter(sn => sn && Array.isArray(sn.sets) && sn.sets.length > 0);
+      let weight = '', reps = 10, seriesCount = 3;
+      if (priorSessions.length) {
+        const last = priorSessions[0];
+        weight = last.sets[0].weight; reps = last.sets[0].reps; seriesCount = last.sets.length;
+      }
+      const weightLabel = weight !== '' ? `${weight} ${unitLabel}` : 'sin peso previo';
+      todayPlanPreview.push({ name: pex.name, label: `${weightLabel} × ${reps} reps × ${seriesCount} series` });
+      for (let i = 1; i <= seriesCount; i++) {
+        todayPlanSteps.push({ exerciseId: pex.id, exerciseName: pex.name, weight, reps, weightLabel, serieIndex: i, totalSeries: seriesCount });
+      }
+    });
+
+    const activeStep = s.workoutSteps[s.workoutStepIndex] || null;
+    const distinctExIds = [...new Set(s.workoutSteps.map(st => st.exerciseId))];
+
+    const profileParts = [];
+    if (s.profile.weight) profileParts.push(`${s.profile.weight} kg`);
+    if (s.profile.height) profileParts.push(`${s.profile.height} cm`);
+    if (s.profile.age) profileParts.push(`${s.profile.age} años`);
+
+    const shellStyles = this.computeShellStyles(s.viewportMode);
+    return {
+      shellOuterStyle: shellStyles.outer,
+      shellBezelStyle: shellStyles.bezel,
+      shellScreenStyle: shellStyles.screen,
+      isOnboarding: s.onboardStep !== null,
+      isAppMode: s.onboardStep === null,
+      isNormalTabs: s.onboardStep === null && !s.workoutActive,
+      isWorkoutActive: s.onboardStep === null && s.workoutActive,
+      hasTodayPlan: todayPlannedRaw.length > 0,
+      todayPlanPreview,
+      startWorkout: () => this.startWorkout(todayPlanSteps),
+      isWorkoutRunning: s.workoutPhase !== 'complete',
+      isPhaseSet: s.workoutPhase === 'set',
+      isPhaseChoice: s.workoutPhase === 'choice',
+      isPhaseSetOrChoice: s.workoutPhase === 'set' || s.workoutPhase === 'choice',
+      isPhaseRestPick: s.workoutPhase === 'restPick',
+      isPhaseRestRunning: s.workoutPhase === 'restRunning',
+      isPhaseComplete: s.workoutPhase === 'complete',
+      workoutExerciseNum: activeStep ? distinctExIds.indexOf(activeStep.exerciseId) + 1 : 0,
+      workoutExerciseTotal: distinctExIds.length,
+      currentStep: activeStep ? {
+        exerciseName: activeStep.exerciseName, serieIndex: activeStep.serieIndex, totalSeries: activeStep.totalSeries,
+        weightLabel: activeStep.weightLabel, reps: activeStep.reps,
+      } : { exerciseName: '', serieIndex: 0, totalSeries: 0, weightLabel: '', reps: 0 },
+      restOptionsView: [0.5, 1, 1.5, 2, 3].map(v => ({
+        value: v, label: v === 0.5 ? '30s' : (v % 1 === 0 ? v + ' min' : Math.floor(v) + ':30'),
+        bg: !s.restCustomActive && s.restMinutes === v ? '#B56576' : '#FFFFFF', color: !s.restCustomActive && s.restMinutes === v ? '#FFFFFF' : '#2E2A2C',
+        pick: () => this.setRestMinutes(v),
+      })),
+      isRestCustomActive: s.restCustomActive,
+      customChipBg: s.restCustomActive ? '#B56576' : '#FFFFFF', customChipColor: s.restCustomActive ? '#FFFFFF' : '#2E2A2C',
+      activateCustomRest: () => this.activateCustomRest(),
+      customMin: s.customMin, customSec: s.customSec,
+      setCustomMin: e => this.setCustomMin(e.target.value),
+      setCustomSec: e => this.setCustomSec(e.target.value),
+      restDisplay: `${Math.floor(s.restRemaining / 60)}:${String(s.restRemaining % 60).padStart(2, '0')}`,
+      completeSet: () => this.completeSet(),
+      chooseRest: () => this.chooseRest(),
+      chooseContinueStep: () => this.advanceStepOrFinish(),
+      startRestCountdown: () => this.startRestCountdown(),
+      skipRest: () => this.skipRest(),
+      exitWorkout: () => this.exitWorkout(),
+      isFormStep: s.onboardStep === 'form',
+      isTutorialStep: s.onboardStep === 'tutorial',
+      isFinalStep: s.onboardStep === 'final',
+      isTut1: s.tutStep === 1, isTut2: s.tutStep === 2, isTut3: s.tutStep === 3, isTut4: s.tutStep === 4, isTut5: s.tutStep === 5,
+      tutDots: [1, 2, 3, 4, 5].map(n => ({ color: n === s.tutStep ? '#B56576' : '#E4A3B3', size: n === s.tutStep ? '8px' : '6px' })),
+      showBackBtn: s.tutStep > 1,
+      nextLabel: s.tutStep < 5 ? 'Siguiente' : 'Continuar',
+      nextTutStep: () => this.nextTutStep(),
+      prevTutStep: () => this.prevTutStep(),
+      skipTutorial: () => this.skipTutorial(),
+      replayTutorial: () => this.replayTutorial(),
+      finishOnboarding: () => this.finishOnboarding(),
+      profile: s.profile,
+      formError: s.formError,
+      setProfileName: e => this.setState({ profile: Object.assign({}, s.profile, { name: e.target.value }) }),
+      setProfileWeight: e => this.setState({ profile: Object.assign({}, s.profile, { weight: e.target.value }) }),
+      setProfileHeight: e => this.setState({ profile: Object.assign({}, s.profile, { height: e.target.value }) }),
+      setProfileAge: e => this.setState({ profile: Object.assign({}, s.profile, { age: e.target.value }) }),
+      setGoalGanar: () => this.setState({ profile: Object.assign({}, s.profile, { goal: 'ganar' }) }),
+      setGoalPerder: () => this.setState({ profile: Object.assign({}, s.profile, { goal: 'perder' }) }),
+      setGoalMantener: () => this.setState({ profile: Object.assign({}, s.profile, { goal: 'mantener' }) }),
+      goalGanarBg: s.profile.goal === 'ganar' ? '#B56576' : 'transparent', goalGanarColor: s.profile.goal === 'ganar' ? '#FFFFFF' : '#2E2A2C',
+      goalPerderBg: s.profile.goal === 'perder' ? '#B56576' : 'transparent', goalPerderColor: s.profile.goal === 'perder' ? '#FFFFFF' : '#2E2A2C',
+      goalMantenerBg: s.profile.goal === 'mantener' ? '#B56576' : 'transparent', goalMantenerColor: s.profile.goal === 'mantener' ? '#FFFFFF' : '#2E2A2C',
+      submitProfileForm: () => this.submitProfileForm(),
+      finalGreeting: s.profile.name.trim() ? `¡Listo, ${s.profile.name.trim()}!` : '¡Todo listo!',
+      greetName: `Hola, ${s.profile.name.trim() || 'atleta'}`,
+      profileSummary: profileParts.length ? profileParts.join(' · ') : 'Completa tus datos en Perfil',
+      isHome: s.tab === 'home',
+      isCalendar: s.tab === 'calendar',
+      isProgress: s.tab === 'progress',
+      isProfile: s.tab === 'profile',
+      days,
+      showGroupGrid: s.tab === 'exercises' && !s.groupId,
+      showExerciseList: s.tab === 'exercises' && !!s.groupId && !s.exerciseId,
+      showDetail: s.tab === 'exercises' && !!s.exerciseId,
+      groups, exercisesForGroup,
+      group: groupObj ? { name: groupObj.name, count: combinedExercises.length } : { name: '', count: 0 },
+      exercise: exerciseObj ? {
+        name: exerciseObj.name, typeLabel: TYPE_LABELS[exerciseObj.type || 'maquina'], heroId: `ex-hero-${exerciseObj.id}`,
+        posInicial: (s.exerciseNotes[exerciseObj.id] || {}).posInicial || (s.exerciseNotesSeed[exerciseObj.id] || {}).posInicial || '',
+        ejecucion: (s.exerciseNotes[exerciseObj.id] || {}).ejecucion || (s.exerciseNotesSeed[exerciseObj.id] || {}).ejecucion || '',
+      } : { name: '', typeLabel: '', heroId: 'ex-hero-none', posInicial: '', ejecucion: '' },
+      setPosInicial: e => this.updateExerciseNote(exerciseObj && exerciseObj.id, 'posInicial', e.target.value),
+      setEjecucion: e => this.updateExerciseNote(exerciseObj && exerciseObj.id, 'ejecucion', e.target.value),
+      heroPointerDown: e => this.heroPointerDown(e),
+      heroPointerMove: e => this.heroPointerMove(e),
+      heroPointerUp: () => this.heroPointerUp(),
+      heroTrackTransform: `translateX(calc(${-(s.heroIndex + 1) * (100 / 3)}% + ${s.heroDragging ? s.heroDragPx : 0}px))`,
+      heroTrackTransition: s.heroDragging ? 'none' : 'transform .3s cubic-bezier(.22,1,.36,1)',
+      heroDots: [-1, 0, 1].map(i => ({
+        size: s.heroIndex === i ? '18px' : '6px',
+        color: s.heroIndex === i ? '#B56576' : '#E4A3B3',
+        go: () => this.setState({ heroIndex: i }),
+      })),
+      heroCaption: s.heroIndex === -1 ? 'Posición inicial' : s.heroIndex === 1 ? 'Ejecución' : 'Desliza ← ejecución · posición inicial →',
+      isAddFormOpenHere, isAddFormClosedHere: !isAddFormOpenHere, addForm: s.addForm,
+      openAddForm: () => groupObj && this.openAddForm(groupObj.id),
+      closeAddForm: () => this.closeAddForm(),
+      setAddName: e => this.setAddFormField('name', e.target.value),
+      setAddMachine: e => this.setAddFormField('machine', e.target.value),
+      setAddTypeMaquina: () => this.setAddFormField('type', 'maquina'),
+      setAddTypeLibre: () => this.setAddFormField('type', 'libre'),
+      setAddTypeCorporal: () => this.setAddFormField('type', 'corporal'),
+      addTypeMaquinaBg: s.addForm.type === 'maquina' ? '#B56576' : 'transparent', addTypeMaquinaColor: s.addForm.type === 'maquina' ? '#FFFFFF' : '#2E2A2C',
+      addTypeLibreBg: s.addForm.type === 'libre' ? '#B56576' : 'transparent', addTypeLibreColor: s.addForm.type === 'libre' ? '#FFFFFF' : '#2E2A2C',
+      addTypeCorporalBg: s.addForm.type === 'corporal' ? '#B56576' : 'transparent', addTypeCorporalColor: s.addForm.type === 'corporal' ? '#FFFFFF' : '#2E2A2C',
+      saveCustomExercise: () => groupObj && this.saveCustomExercise(groupObj.id),
+      backToGroups: () => this.setState({ groupId: null, exerciseId: null, navSeq: s.navSeq + 1 }),
+      backToList: () => this.setState({ exerciseId: null, navSeq: s.navSeq + 1 }),
+      form: s.form,
+      setWeight: e => this.setState({ form: Object.assign({}, s.form, { weight: e.target.value }) }),
+      setReps: e => this.setState({ form: Object.assign({}, s.form, { reps: e.target.value }) }),
+      setSeries: e => this.setState({ form: Object.assign({}, s.form, { series: e.target.value }) }),
+      isLinearMode: s.logMode === 'linear', isMultiMode: s.logMode === 'multi',
+      setLogModeLinear: () => this.setState({ logMode: 'linear' }),
+      setLogModeMulti: () => this.setState({ logMode: 'multi' }),
+      modeLinearBg: s.logMode === 'linear' ? '#B56576' : 'transparent', modeLinearColor: s.logMode === 'linear' ? '#FFFFFF' : '#2E2A2C',
+      modeMultiBg: s.logMode === 'multi' ? '#B56576' : 'transparent', modeMultiColor: s.logMode === 'multi' ? '#FFFFFF' : '#2E2A2C',
+      multiRowsView: s.multiRows.map((row, i) => ({
+        n: i + 1, weight: row.weight, reps: row.reps,
+        setWeight: e => this.updateMultiRow(i, 'weight', e.target.value),
+        setReps: e => this.updateMultiRow(i, 'reps', e.target.value),
+        remove: () => this.removeMultiRow(i),
+      })),
+      addMultiRow: () => this.addMultiRow(),
+      addSet: () => {
+        if (!exerciseObj) return;
+        const w = parseFloat(s.form.weight) || 0, r = parseInt(s.form.reps) || 0, se = parseInt(s.form.series) || 0;
+        if (w <= 0 || r <= 0 || se <= 0) return;
+        const prevBest = sessions.length ? Math.max(...sessions.flatMap(sn => sn.sets.map(x => x.weight))) : 0;
+        const entry = { date: 'Hoy', sets: Array.from({ length: se }, () => ({ weight: w, reps: r })) };
+        const nextSets = Object.assign({}, s.setsByExercise, { [exerciseObj.id]: [entry, ...sessions] });
+        const isPr = w > prevBest;
+        this.setState({ setsByExercise: nextSets, justPr: isPr });
+        this.persist(nextSets);
+        if (isPr) setTimeout(() => this.setState({ justPr: false }), 2600);
+      },
+      saveMultiSession: () => {
+        if (!exerciseObj) return;
+        const validRows = s.multiRows.filter(r => (parseFloat(r.weight) || 0) > 0 && (parseInt(r.reps) || 0) > 0);
+        if (!validRows.length) return;
+        const newSets = validRows.map(r => ({ weight: parseFloat(r.weight) || 0, reps: parseInt(r.reps) || 0 }));
+        const prevBest = sessions.length ? Math.max(...sessions.flatMap(sn => sn.sets.map(x => x.weight))) : 0;
+        const entry = { date: 'Hoy', sets: newSets };
+        const nextSets = Object.assign({}, s.setsByExercise, { [exerciseObj.id]: [entry, ...sessions] });
+        const isPr = newSets.some(x => x.weight > prevBest);
+        this.setState({ setsByExercise: nextSets, justPr: isPr, multiRows: defaultMultiRows() });
+        this.persist(nextSets);
+        if (isPr) setTimeout(() => this.setState({ justPr: false }), 2600);
+      },
+      justPr: s.justPr,
+      hasHistory: sessions.length > 0,
+      historyRows, bars,
+      hasPrs: allPrs.length > 0, hasPrsInverse: allPrs.length === 0,
+      prList: allPrs,
+      lastPr: lastPrEntry ? { label: lastPrEntry.name, detail: `${lastPrEntry.weightLabel} · ${lastPrEntry.repsSeries}` } : false,
+      weekCount: 4, prCount: allPrs.length,
+      unitKgBg: s.unit === 'kg' ? '#B56576' : 'transparent', unitKgColor: s.unit === 'kg' ? '#FFFFFF' : '#2E2A2C',
+      unitLbBg: s.unit === 'lb' ? '#B56576' : 'transparent', unitLbColor: s.unit === 'lb' ? '#FFFFFF' : '#2E2A2C',
+      setUnitKg: () => this.setState({ unit: 'kg' }), setUnitLb: () => this.setState({ unit: 'lb' }),
+      fileInputRef: this.fileInputRef,
+      exportProgress: () => this.exportProgress(),
+      triggerImport: () => this.triggerImport(),
+      handleImportFile: e => this.handleImportFile(e),
+      transferMsg: s.transferMsg,
+      tabColorHome: s.tab === 'home' ? '#B56576' : '#355070',
+      tabColorExercises: s.tab === 'exercises' ? '#B56576' : '#355070',
+      tabColorCalendar: s.tab === 'calendar' ? '#B56576' : '#355070',
+      tabColorProgress: s.tab === 'progress' ? '#B56576' : '#355070',
+      tabColorProfile: s.tab === 'profile' ? '#B56576' : '#355070',
+      goHome: () => this.setState({ tab: 'home', navSeq: s.navSeq + 1 }),
+      goExercises: () => this.setState({ tab: 'exercises', navSeq: s.navSeq + 1 }),
+      goCalendar: () => this.setState({ tab: 'calendar', navSeq: s.navSeq + 1 }),
+      goProgress: () => this.setState({ tab: 'progress', navSeq: s.navSeq + 1 }),
+      goProfile: () => this.setState({ tab: 'profile', navSeq: s.navSeq + 1 }),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
